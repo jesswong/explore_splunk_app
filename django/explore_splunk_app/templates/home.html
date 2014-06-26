@@ -6,6 +6,8 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}{{app_name}}/custom.css" />
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}splunkjs/css/dashboard.css">
+
 
     <style>
         #hsi-graph {
@@ -42,26 +44,18 @@
 
     <div class="container">
         <h3>Events from Host to Sourcetype to Index (past 5 minutes)</h3>
-        <div id="hsi-graph">
+         <div id="initial">
+            <div id="hsi-graph"></div>
         </div>
+        <div id="hsi-graph2"></div>
     </div>
 
     <div class="container">
-        <h4>Select an index</h4>
-        <div id="indexes">
-            {% dropdown id="index" default="" managerid="index_search"
-                labelField="index" valueField="index" %}
+        <h4>Enter host(s):</h4>
+        <div id="host">
+            {% multidropdown id="hosts" default="" managerid="host_search"
+                labelField="host" valueField="host" value="$host$"|token_safe %}
          </div>
-        <div>
-            <h4>Select a sourcetype</h4>
-            {% dropdown id="sourcetype" default="" managerid="sourcetype_search"
-                labelField="sourcetype" valueField="sourcetype" %}
-        </div>
-        <div>
-            <h4>Select a host</h4>
-            {% dropdown id="host" default="" managerid="host_search"
-                labelField="host" valueField="host" %}
-        </div>
 
         <div id="results">
             <h4>Splunk Search String:</h4>
@@ -74,30 +68,23 @@
 
 {% block managers %}
     {% searchmanager
-        id="hsi_search"
-        search="index=* earliest=-5m@m | head 200 | dedup host sourcetype index | table host sourcetype index"
+        id="si_search"
+        search="index=* earliest=-5m@m | stats count by index sourcetype | sort -count | head 20"
         earliest_time="-5m@m"
         latest_time="now"
         preview=True
         cache=True %}
 
     {% searchmanager
-        id="index_search"
-        search="index=* earliest=-5m@m | head 200 | dedup host sourcetype index | table index"
-        earliest_time="-5m@m"
-        latest_time="now"
-        cache=True %}
-
-    {% searchmanager
-        id="sourcetype_search"
-        search="index=* earliest=-5m@m | head 200 | dedup host sourcetype index | table sourcetype"
-        earliest_time="-5m@m"
-        latest_time="now"
-        cache=True %}
-
-    {% searchmanager
         id="host_search"
-        search="index=* earliest=-5m@m | head 200 | dedup host sourcetype index | table host"
+        search="index=* earliest=-5m@m | table host"
+        earliest_time="-5m@m"
+        latest_time="now"
+        cache=True %}
+
+    {% searchmanager
+        id="hsi_search"
+        search="index=* earliest=-5m@m host=$host$ | stats count by index sourcetype"|token_safe
         earliest_time="-5m@m"
         latest_time="now"
         cache=True %}
@@ -109,32 +96,26 @@
         require([
             "splunkjs/ready!",
             "jquery",
-            "splunk_wftoolkit/components/parallelcoords/parallelcoords",
+            "splunk_wftoolkit/components/sankey/sankey",
         ],
-        function(mvc, $, ParallelCoords) {
-            var coords = new ParallelCoords({
+        function(mvc, $, Sankey) {
+            var coords = new Sankey({
                 'id' : 'hsi',
+                'managerid' : 'si_search',
+                'el' : $('#hsi-graph')
+            }).render();
+
+            var coords = new Sankey({
+                'id' : 'hsi2',
                 'managerid' : 'hsi_search',
                 'el' : $('#hsi-graph')
             }).render();
-            var chosenIndex = splunkjs.mvc.Components.getInstance("index");
-            var indexResult = document.getElementById("index_result");
-            chosenIndex.on("change", function() {
-                indexResult.innerHTML = "index=" + chosenIndex.val();
-            });
-
-            var chosenSource = splunkjs.mvc.Components.getInstance("sourcetype");
-            chosenSource.on("change", function() {
-                indexResult.innerHTML += " sourcetype=" + chosenSource.val();
-            });
-
             var chosenHost = splunkjs.mvc.Components.getInstance("host");
-            var hostResult = document.getElementById("host_result");
+            var indexResult = document.getElementById("index_result");
             chosenHost.on("change", function() {
-                indexResult.innerHTML += " host=" + chosenHost.val();
+                document.getElementById("initial").style.display = "none";
             });
         });
-
 
     </script>
 {% endblock js %}
