@@ -7,7 +7,7 @@
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}{{app_name}}/custom.css" />
 
-    <style>        
+    <style>
         #hsi-graph {
             width: auto;
             height: 700px;
@@ -15,9 +15,25 @@
             border: 1px solid gray;
         }
 
+        .container {
+            float:left;
+            margin-left: 20px;
+        }
+
         h3 {
             margin-bottom: 10px;
         }
+
+        #index_result {
+            font-family: Courier New;
+            font-size: 14pt;
+            background-color: white;
+            padding: 5pt;
+            border: 1px solid gray;
+            height: 15pt;
+            width: 700px;
+        }
+
 
     </style>
 {% endblock css %}
@@ -30,16 +46,62 @@
         </div>
     </div>
 
+    <div class="container">
+        <h4>Select an index</h4>
+        <div id="indexes">
+            {% dropdown id="index" default="" managerid="index_search"
+                labelField="index" valueField="index" %}
+         </div>
+        <div>
+            <h4>Select a sourcetype</h4>
+            {% dropdown id="sourcetype" default="" managerid="sourcetype_search"
+                labelField="sourcetype" valueField="sourcetype" %}
+        </div>
+        <div>
+            <h4>Select a host</h4>
+            {% dropdown id="host" default="" managerid="host_search"
+                labelField="host" valueField="host" %}
+        </div>
+
+        <div id="results">
+            <h4>Splunk Search String:</h4>
+            <div id="index_result"></div>
+        </div>
+    </div>
+
+
 {% endblock content%}
 
 {% block managers %}
     {% searchmanager
         id="hsi_search"
-        search="index=* | head 200 | dedup host sourcetype index | table host sourcetype index"
+        search="index=* earliest=-5m@m | head 200 | dedup host sourcetype index | table host sourcetype index"
         earliest_time="-5m@m"
         latest_time="now"
         preview=True
         cache=True %}
+
+    {% searchmanager
+        id="index_search"
+        search="index=* earliest=-5m@m | head 200 | dedup host sourcetype index | table index"
+        earliest_time="-5m@m"
+        latest_time="now"
+        cache=True %}
+
+    {% searchmanager
+        id="sourcetype_search"
+        search="index=* earliest=-5m@m | head 200 | dedup host sourcetype index | table sourcetype"
+        earliest_time="-5m@m"
+        latest_time="now"
+        cache=True %}
+
+    {% searchmanager
+        id="host_search"
+        search="index=* earliest=-5m@m | head 200 | dedup host sourcetype index | table host"
+        earliest_time="-5m@m"
+        latest_time="now"
+        cache=True %}
+
 {% endblock managers %}
 
 {% block js %}    
@@ -55,6 +117,24 @@
                 'managerid' : 'hsi_search',
                 'el' : $('#hsi-graph')
             }).render();
+            var chosenIndex = splunkjs.mvc.Components.getInstance("index");
+            var indexResult = document.getElementById("index_result");
+            chosenIndex.on("change", function() {
+                indexResult.innerHTML = "index=" + chosenIndex.val();
+            });
+
+            var chosenSource = splunkjs.mvc.Components.getInstance("sourcetype");
+            chosenSource.on("change", function() {
+                indexResult.innerHTML += " sourcetype=" + chosenSource.val();
+            });
+
+            var chosenHost = splunkjs.mvc.Components.getInstance("host");
+            var hostResult = document.getElementById("host_result");
+            chosenHost.on("change", function() {
+                indexResult.innerHTML += " host=" + chosenHost.val();
+            });
         });
+
+
     </script>
 {% endblock js %}
