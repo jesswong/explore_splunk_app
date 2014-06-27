@@ -43,11 +43,11 @@
         <div class="dashboard-cell span-half">
             <div class="dashboard-panel">
                 <div class="dashboard-element">
-                     <div class="panel-body">
-                         <div id="hsi-graph"></div>
-                         <div id="hsi-graph2">
-                             
-                         </div>
+                    <div class="panel-head" id="hostHead">
+                        <p>Index -> Sourcetype</p>
+                    </div>
+                     <div class="panel-body" id="hostBody">
+                         <div id="hsi-graph2"></div>
                      </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@
                       </div>
                      <div class="panel-head">
                         <div id="host">
-                            {% multidropdown id="hosts" default="" managerid="host_search"
+                            {% multidropdown id="hosts" managerid="host_search"
                                 labelField="host" valueField="host" %}
                          </div>
 
@@ -147,8 +147,9 @@
             var coords = new Sankey({
                 'id' : 'hsi2',
                 'managerid' : 'hsi_search',
-                'el' : $('#hsi-graph')
+                'el' : $('#hsi-graph2')
             }).render();
+
             var chosenHost = splunkjs.mvc.Components.getInstance("hosts");
             var indexResult = document.getElementById("index_result");
             var hostHTML = "";
