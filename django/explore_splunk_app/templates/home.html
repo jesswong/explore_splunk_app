@@ -7,72 +7,86 @@
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}{{app_name}}/custom.css" />
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}splunkjs/css/dashboard.css">
-            background-color: white;
 
 
     <style>
-        #hsi-graph {
-            width: auto;
-            height: 700px;
-            border: 1px solid gray;
-        }
-
-        .container {
-            float:left;
-            margin-left: 20px;
-        }
-
         h3 {
             margin-bottom: 10px;
         }
 
-        #index_result {
-            font-family: Courier New;
-            font-size: 14pt;
-            background-color: white;
-            padding: 5pt;
-            border: 1px solid gray;
-            height: 15pt;
-            width: 700px;
+        #index {
+            display: none;
+        }
+
+        #sourcetypes {
+            display: none;
+        }
+
+        .span-full {
+            width: 100%;
+        }
+        .span-half {
+            width: 50%;
         }
 
     </style>
 {% endblock css %}
 
 {% block content %}
-
-    <div class="container">
-        <h3>Events from Host to Sourcetype to Index (past 5 minutes)</h3>
-         <div id="initial">
-            <div id="hsi-graph"></div>
-        </div>
-        <div id="hsi-graph2"></div>
-    </div>
-
-    <div class="container">
-        <h4>Enter host(s):</h4>
-        <div id="host">
-            {% multidropdown id="hosts" default="" managerid="host_search"
-                labelField="host" valueField="host" value="$host$"|token_safe %}
-         </div>
-
-        <div id="index">
-            <h4>Enter index(es):</h4>
-            {% multidropdown id="indices" managerid="index_search"
-                labelField="index" valueField="index" %}
-        </div>
-
-        <div id="sourcetype">
-            <h4>Enter sourcetype(s):</h4>
-            {% multidropdown id="sourcetype" managerid="sourcetype_search"
-                labelField="sourcetype" valueField="sourcetype" %}
-        </div>
-
-        <div id="results">
-            <h4>Splunk Search String:</h4>
-            <div id="index_result"></div>
+<div class="dashboard-body container-fluid main-section-body">
+    <div class="row">
+        <div class="span12 dashboard-header clearfix">
+               <h3>Events from Host to Sourcetype to Index (past 5 minutes)</h3>
         </div>
     </div>
+    <div class="dashboard-row">
+        <div class="dashboard-cell span-half">
+            <div class="dashboard-panel">
+                <div class="dashboard-element">
+                     <div class="panel-body">
+                         <div id="hsi-graph"></div>
+                         <div id="hsi-graph2">
+                             
+                         </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-cell span-half">
+            <div class="dashboard-panel">
+                 <div class="dashboard-element">
+                     <div class="panel-head">
+                        <h4>Enter host(s):</h4>
+                      </div>
+                     <div class="panel-head">
+                        <div id="host">
+                            {% multidropdown id="hosts" default="" managerid="host_search"
+                                labelField="host" valueField="host" %}
+                         </div>
+
+                        <div id="index">
+                            <h4>Enter index(es):</h4>
+                            {% multidropdown id="indices" managerid="index_search"
+                                labelField="index" valueField="index" %}
+                        </div>
+
+                        <div id="sourcetypes">
+                            <h4>Enter sourcetype(s):</h4>
+                            {% multidropdown id="sourcetype" managerid="sourcetype_search"
+                                labelField="sourcetype" valueField="sourcetype" %}
+                        </div>
+
+                        <div id="results">
+                            <h4>Splunk Search String:</h4>
+                            <div id="index_result"></div>
+                        </div>
+                      </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% endblock content%}
@@ -80,7 +94,7 @@
 {% block managers %}
     {% searchmanager
         id="si_search"
-        search="index=* earliest=-5m@m | stats count by index sourcetype | sort -count | head 20"
+        search="index=* earliest=-5m@m latest=now | stats count by sourcetype host | sort -count | head 20"
         earliest_time="-5m@m"
         latest_time="now"
         preview=True
@@ -88,28 +102,28 @@
 
     {% searchmanager
         id="host_search"
-        search="index=* earliest=-5m@m | table host"
+        search="index=_internal hostname source=/opt/splunk/var/log/splunk/metrics.log earliest=-5m@m latest=now | dedup hostname | rename hostname as host | table host"
         earliest_time="-5m@m"
         latest_time="now"
         cache=True %}
 
     {% searchmanager
         id="hsi_search"
-        search="index=* earliest=-5m@m host=$host$ | stats count by index sourcetype"|token_safe
+        search="index=* earliest=-5m@m latest=now host=$host$ | stats count by index sourcetype"|token_safe
         earliest_time="-5m@m"
         latest_time="now"
         cache=True %}
 
     {% searchmanager
         id="index_search"
-        search="index=* earliest=-5m@m host=$host$ | stats count by index sourcetype | table index"|token_safe
+        search="index=* earliest=-5m@m latest=now host=$host$ | stats count by index sourcetype | table index"|token_safe
         earliest_time="-5m@m"
         latest_time="now"
         cache=True %}
 
     {% searchmanager
         id="sourcetype_search"
-        search="index=* earliest=-5m@m host=$host$ | stats count by index sourcetype | table sourcetype"|token_safe
+        search="index=* earliest=-5m@m latest=now host=$host$ | stats count by index sourcetype | table sourcetype"|token_safe
         earliest_time="-5m@m"
         latest_time="now"
         cache=True %}
@@ -137,19 +151,26 @@
             }).render();
             var chosenHost = splunkjs.mvc.Components.getInstance("hosts");
             var indexResult = document.getElementById("index_result");
+            var hostHTML = "";
             chosenHost.on("change", function() {
-                indexResult.innerHTML = "host=" + chosenHost.val();
+                document.getElementById("index").style.display = "inline";
+                var hostString = chosenHost.val().join(' OR ');
+                indexResult.innerHTML = "host=" + hostString;
+                hostHTML = indexResult.innerHTML;
+                mvc.Components.getInstance("default").set("host", hostString);
+
             });
 
             var chosenIndex = splunkjs.mvc.Components.getInstance("indices");
-            var extras = indexResult.innerHTML;
-            chosenHost.on("change", function() {
-                indexResult.innerHTML = "index=" + chosenIndex.val().join(" ") + " " + extras;
+            chosenIndex.on("change", function() {
+                document.getElementById("sourcetypes").style.display = "inline";
+                indexResult.innerHTML = "index=" + chosenIndex.val().join(' OR ') + " " + hostHTML;
+
             });
 
             var chosenSource = splunkjs.mvc.Components.getInstance("sourcetype");
             chosenSource.on("change", function() {
-                indexResult.innerHTML += " sourcetype=" + chosenSource.val().join(" ");
+                indexResult.innerHTML += " sourcetype=" + chosenSource.val().join(' OR ');
             });
         });
 
