@@ -29,6 +29,10 @@
             width: 50%;
         }
 
+        .line {
+            border-bottom: 2px solid gray;
+        }
+
     </style>
 {% endblock css %}
 
@@ -36,7 +40,7 @@
 <div class="dashboard-body container-fluid main-section-body">
     <div class="row">
         <div class="span12 dashboard-header clearfix">
-               <h3>Events from Host to Sourcetype to Index (past 5 minutes)</h3>
+               <h2>Events from Sourcetype to Index based on Hosts (past 5 minutes)</h2>
         </div>
     </div>
     <div class="dashboard-row">
@@ -59,20 +63,6 @@
                                 labelField="host" valueField="host" value="$inputs$"|token_safe %}
                          </div>
 
-                         <div id="host1">
-                            {% dropdown id="hosts1" managerid="host_search"
-                                labelField="host" valueField="host" %}
-                         </div>
-
-                         <div id="host2">
-                            {% dropdown id="hosts2" managerid="host_search"
-                                labelField="host" valueField="host" %}
-                         </div>
-
-                         <div id="host3">
-                            {% dropdown id="hosts3" managerid="host_search"
-                                labelField="host" valueField="host" %}
-                         </div>
 
                         <div id="index">
                             <h4>Enter index(es):</h4>
@@ -130,18 +120,19 @@
             "splunkjs/ready!",
             "jquery",
             "splunk_wftoolkit/components/sankey/sankey",
-            "splunkjs/mvc/searchmanager"
+            "splunkjs/mvc/searchmanager",
+            "splunkjs/mvc/postprocessmanager"
         ],
         function(mvc, $, Sankey) {
             var SearchManager = require("splunkjs/mvc/searchmanager");
+            var PostProcessManager = require("splunkjs/mvc/postprocessmanager");
 
             var chosenHost = splunkjs.mvc.Components.getInstance("hosts0");
             var indexResult = document.getElementById("index_result");
             var hostHTML = "";
             chosenHost.on("change", function() {
-                document.getElementById("host1").style.display = "inline";
                 indexResult.innerHTML = "index=" + chosenHost.val();
-                document.getElementById("indices").style.display="inline";
+                document.getElementById("index").style.display="inline";
             });
 
             var size = 0;
@@ -153,7 +144,7 @@
                     tokens.set("output" + i, inputs[i]);
                     var hostPanel = document.createElement("div");
                     hostPanel.class = "panel-head";
-                    var title = document.createElement("h2");
+                    var title = document.createElement("h3");
                     title.innerHTML = "Host: " + inputs[i];
                     hostPanel.appendChild(title);
                     hostElement.appendChild(hostPanel);
@@ -161,14 +152,15 @@
                     hostGraph.class="panel-body";
                     var newGraph = document.createElement("div");
                     newGraph.id = "hostgraph" + i;
+                    newGraph.class = "line";
                     hostGraph.appendChild(newGraph);
                     hostElement.appendChild(hostGraph);
                     var hostSearch = new SearchManager({
                         id: "hsi_search" + size,
-                        cache: true,
+                        cache: false,
                         earliest_time: "-5m@m",
                         latest_time: "now",
-                        search: "index=* earliest=-5m@m latest=now host=$output" + i + "$ | stats count by index sourcetype"
+                        search: "index=* earliest=-5m@m latest=now host=$output" + i + "$ | stats count by sourcetype index"
                     }, {tokens: true});
 
                     var id = "hsi" + i;
@@ -186,7 +178,6 @@
             chosenIndex.on("change", function() {
                 document.getElementById("sourcetypes").style.display = "inline";
                 indexResult.innerHTML = "index=" + chosenIndex.val();
-
             });
 
             var chosenSource = splunkjs.mvc.Components.getInstance("sourcetype");
@@ -194,10 +185,6 @@
                 indexResult.innerHTML += " sourcetype=" + chosenSource.val().join(' OR ');
             });
         });
-
-        function searchMe() {
-
-        }
 
     </script>
 {% endblock js %}
