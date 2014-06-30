@@ -85,8 +85,8 @@
       <file leaf-file-name="home.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/django/explore_splunk_app/templates/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23020528" vertical-offset="2183" max-vertical-offset="3090">
-              <caret line="156" column="54" selection-start-line="156" selection-start-column="54" selection-end-line="156" selection-end-column="54" />
+            <state vertical-scroll-proportion="0.6378299" vertical-offset="2070" max-vertical-offset="3165">
+              <caret line="167" column="52" selection-start-line="167" selection-start-column="52" selection-end-line="167" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -869,8 +869,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/django/explore_splunk_app/templates/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23020528" vertical-offset="2183" max-vertical-offset="3090">
-          <caret line="156" column="54" selection-start-line="156" selection-start-column="54" selection-end-line="156" selection-end-column="54" />
+        <state vertical-scroll-proportion="0.6378299" vertical-offset="2070" max-vertical-offset="3165">
+          <caret line="167" column="52" selection-start-line="167" selection-start-column="52" selection-end-line="167" selection-end-column="52" />
           <folding />
         </state>
       </provider>

@@ -42,9 +42,8 @@
     <div class="dashboard-row">
         <div class="dashboard-cell span-half">
             <div class="dashboard-panel">
-                <div class="dashboard-element">
+                <div class="dashboard-element" id="hostElement">
                     <div class="panel-head" id="hostHead">
-                        <p>Index -> Sourcetype</p>
                     </div>
                      <div class="panel-body" id="hostBody">
                      </div>
@@ -149,33 +148,39 @@
                 document.getElementById("indices").style.display="inline";
             });
 
-            var hostSearch = new SearchManager({
-                id: "hsi_search",
-                cache: true,
-                earliest_time: "-5m@m",
-                latest_time: "now",
-                search: mvc.tokenSafe("$searchQuery$")
-
-            }, {tokens: true});
-
+            var size = 0;
             var tokens = mvc.Components.get('default');
             tokens.on("change:inputs", function(model, inputs, options) {
-                var hostBody = document.getElementById("hostBody");
-                hostBody.innerHTML = "";
+                var hostElement = document.getElementById("hostElement");
+                hostElement.innerHTML = "";
                 for (var i = 0; i < inputs.length; i++) {
-                    var searchQuery = "index=* earliest=-5m@m latest=now host=" + inputs[i] + "| stats count by index sourcetype";
-                    tokens.set("searchQuery", searchQuery);
+                    tokens.set("output" + i, inputs[i]);
+                    var hostPanel = document.createElement("div");
+                    hostPanel.class = "panel-head";
+                    var title = document.createElement("p");
+                    title.innerHTML = "Host:" + inputs[i];
+                    hostPanel.appendChild(title;
+                    hostElement.appendChild(hostPanel);
                     var hostGraph = document.createElement("div");
-                    hostGraph.id = "hostgraph" + i;
-                    hostGraph.innerHTML = inputs[i];
-                    hostBody.appendChild(hostGraph);
+                    hostGraph.class="panel-body";
+                    var newGraph = document.createElement("div");
+                    newGraph.id = "hostgraph" + i;
+                    hostGraph.appendChild(newGraph);
+                    var hostSearch = new SearchManager({
+                        id: "hsi_search" + size,
+                        cache: true,
+                        earliest_time: "-5m@m",
+                        latest_time: "now",
+                        search: "index=* earliest=-5m@m latest=now host=$output" + i + "$ | stats count by index sourcetype"
+                    }, {tokens: true});
+
                     var id = "hsi" + i;
                     var graph = "#hostgraph" + i;
                     var sankey = new Sankey({
-                         'id': id,
-                         'managerid': 'hsi_search',
+                         'managerid': 'hsi_search' + size,
                          'el': $(graph)
                     }).render();
+                    size++;
                 }
             });
 
