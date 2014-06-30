@@ -43,10 +43,6 @@
         <div class="dashboard-cell span-half">
             <div class="dashboard-panel">
                 <div class="dashboard-element" id="hostElement">
-                    <div class="panel-head" id="hostHead">
-                    </div>
-                     <div class="panel-body" id="hostBody">
-                     </div>
                 </div>
             </div>
         </div>
@@ -157,15 +153,16 @@
                     tokens.set("output" + i, inputs[i]);
                     var hostPanel = document.createElement("div");
                     hostPanel.class = "panel-head";
-                    var title = document.createElement("p");
-                    title.innerHTML = "Host:" + inputs[i];
-                    hostPanel.appendChild(title;
+                    var title = document.createElement("h2");
+                    title.innerHTML = "Host: " + inputs[i];
+                    hostPanel.appendChild(title);
                     hostElement.appendChild(hostPanel);
                     var hostGraph = document.createElement("div");
                     hostGraph.class="panel-body";
                     var newGraph = document.createElement("div");
                     newGraph.id = "hostgraph" + i;
                     hostGraph.appendChild(newGraph);
+                    hostElement.appendChild(hostGraph);
                     var hostSearch = new SearchManager({
                         id: "hsi_search" + size,
                         cache: true,
