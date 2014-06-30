@@ -29,10 +29,6 @@
             width: 50%;
         }
 
-        #host1, #hsi-graph1, #hsi-graph2, #hsi-graph3, #host2, #host3 {
-            display: none;
-        }
-
     </style>
 {% endblock css %}
 
@@ -51,10 +47,6 @@
                         <p>Index -> Sourcetype</p>
                     </div>
                      <div class="panel-body" id="hostBody">
-                         <div id="hsi-graph0"></div>
-                         <div id="hsi-graph1"></div>
-                         <div id="hsi-graph2"></div>
-                         <div id="hsi-graph3"></div>
                      </div>
                 </div>
             </div>
@@ -69,7 +61,7 @@
                      <div class="panel-head">
                         <div id="host0">
                             {% multidropdown id="hosts0" managerid="host_search"
-                                labelField="host" valueField="host" value="$host$"|token_safe %}
+                                labelField="host" valueField="host" value="$inputs$"|token_safe %}
                          </div>
 
                          <div id="host1">
@@ -100,7 +92,6 @@
                         </div>
 
                         <div id="results">
-                            {{ "$host$"|token_safe|make_list }}
                             <h4>Splunk Search String:</h4>
                             <div id="index_result"></div>
                         </div>
@@ -118,13 +109,6 @@
     {% searchmanager
         id="host_search"
         search="index=_internal hostname source=/opt/splunk/var/log/splunk/metrics.log earliest=-5m@m latest=now | dedup hostname | rename hostname as host | table host"
-        earliest_time="-5m@m"
-        latest_time="now"
-        cache=True %}
-
-    {% searchmanager
-        id="hsi_search"
-        search="index=* earliest=-5m@m latest=now host=$host$ | stats count by index sourcetype"|token_safe
         earliest_time="-5m@m"
         latest_time="now"
         cache=True %}
@@ -151,22 +135,50 @@
             "splunkjs/ready!",
             "jquery",
             "splunk_wftoolkit/components/sankey/sankey",
+            "splunkjs/mvc/searchmanager"
         ],
         function(mvc, $, Sankey) {
-                var coords = new Sankey({
-                    'id' : 'hsi',
-                    'managerid' : 'hsi_search',
-                    'el' : $('#hsi-graph0')
-                }).render();
+            var SearchManager = require("splunkjs/mvc/searchmanager");
 
-             var chosenHost = splunkjs.mvc.Components.getInstance("hosts0");
-                var indexResult = document.getElementById("index_result");
-                var hostHTML = "";
-                chosenHost.on("change", function() {
-                    document.getElementById("host1").style.display = "inline";
-                    indexResult.innerHTML = "index=" + chosenHost.val();
-                    document.getElementById("indices").style.display="inline";
-                });
+            var chosenHost = splunkjs.mvc.Components.getInstance("hosts0");
+            var indexResult = document.getElementById("index_result");
+            var hostHTML = "";
+            chosenHost.on("change", function() {
+                document.getElementById("host1").style.display = "inline";
+                indexResult.innerHTML = "index=" + chosenHost.val();
+                document.getElementById("indices").style.display="inline";
+            });
+
+            var hostSearch = new SearchManager({
+                id: "hsi_search",
+                cache: true,
+                earliest_time: "-5m@m",
+                latest_time: "now",
+                search: mvc.tokenSafe("$searchQuery$")
+
+            }, {tokens: true});
+
+            var tokens = mvc.Components.get('default');
+            tokens.on("change:inputs", function(model, inputs, options) {
+                var hostBody = document.getElementById("hostBody");
+                hostBody.innerHTML = "";
+                for (var i = 0; i < inputs.length; i++) {
+                    var searchQuery = "index=* earliest=-5m@m latest=now host=" + inputs[i] + "| stats count by index sourcetype";
+                    tokens.set("searchQuery", searchQuery);
+                    var hostGraph = document.createElement("div");
+                    hostGraph.id = "hostgraph" + i;
+                    hostGraph.innerHTML = inputs[i];
+                    hostBody.appendChild(hostGraph);
+                    var id = "hsi" + i;
+                    var graph = "#hostgraph" + i;
+                    var sankey = new Sankey({
+                         'id': id,
+                         'managerid': 'hsi_search',
+                         'el': $(graph)
+                    }).render();
+                }
+            });
+
 
             var chosenIndex = splunkjs.mvc.Components.getInstance("indices");
             chosenIndex.on("change", function() {
@@ -180,6 +192,10 @@
                 indexResult.innerHTML += " sourcetype=" + chosenSource.val().join(' OR ');
             });
         });
+
+        function searchMe() {
+
+        }
 
     </script>
 {% endblock js %}

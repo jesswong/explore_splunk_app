@@ -10,11 +10,12 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/static/appIconAlt_2x.png" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/static/appIconAlt_2x.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/appserver/static/appIcon_2x.png" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/appserver/static/appIcon_2x.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/static/appIcon_2x.png" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/static/appIcon_2x.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/bubblechart/bubblechart.js" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/bubblechart/bubblechart.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/calendarheatmap/calendarheatmap.js" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/calendarheatmap/calendarheatmap.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/sunburst/sunburst.js" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/sunburst/sunburst.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/default/app.conf" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/default/app.conf" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/bubblechart.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/bubblechart.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/bubblechart/bubblechart.js" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/bubblechart/bubblechart.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/calendarheatmap.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/calendarheatmap.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/calendarheatmap/calendarheatmap.js" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/calendarheatmap/calendarheatmap.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/charts.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/charts.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/custom.css" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/custom.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/dashboard_stencil1.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/dashboard_stencil1.html" />
@@ -25,13 +26,11 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/dataview.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/dataview.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/default/data/ui/nav/default.xml" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/default/data/ui/nav/default.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/default/data/ui/views/default.xml" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/default/data/ui/views/default.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/explore_splunk_app.iml" afterPath="$PROJECT_DIR$/.idea/explore_splunk_app.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/forms.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/forms.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/django/explore_splunk_app/templates/home.html" afterPath="$PROJECT_DIR$/django/explore_splunk_app/templates/home.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/home.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/home.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/managers.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/managers.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/map.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/map.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/overview.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/overview.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/parallelcoords/parallelcoords.js" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/parallelcoords/parallelcoords.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/parallelsets/parallelsets.js" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/parallelsets/parallelsets.js" />
@@ -46,12 +45,10 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/setup.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/setup.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templatetags/splunk_wftoolkit.py" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templatetags/splunk_wftoolkit.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/sunburst.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/sunburst.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/sunburst/sunburst.js" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/static/splunk_wftoolkit/components/sunburst/sunburst.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/tables.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/tables.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/toolkit_controls_base.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/toolkit_controls_base.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/toolkitcomponents.html" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/templates/toolkitcomponents.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/urls.py" afterPath="$PROJECT_DIR$/../splunk_wftoolkit/django/splunk_wftoolkit/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="explore_splunk_app.iws" />
@@ -88,8 +85,8 @@
       <file leaf-file-name="home.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/django/explore_splunk_app/templates/home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0337243" vertical-offset="990" max-vertical-offset="2850">
-              <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.23020528" vertical-offset="2183" max-vertical-offset="3090">
+              <caret line="156" column="54" selection-start-line="156" selection-start-column="54" selection-end-line="156" selection-end-column="54" />
               <folding />
             </state>
           </provider>
@@ -135,20 +132,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="macros.conf" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/default/macros.conf">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
-              <caret line="1" column="25" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="custom.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/django/explore_splunk_app/static/explore_splunk_app/custom.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="285">
+            <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="285">
               <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
               <folding />
             </state>
@@ -198,7 +185,7 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="21" />
-    <option name="y" value="29" />
+    <option name="y" value="22" />
     <option name="width" value="1400" />
     <option name="height" value="839" />
   </component>
@@ -484,42 +471,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="default" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="explore_splunk_app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="explore_splunk_app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="default" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ui" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="explore_splunk_app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="explore_splunk_app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="appserver" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -536,6 +487,15 @@
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../share/splunk/search_mrsparkle" />
     <property name="FullScreen" value="false" />
+    <property name="options.lastSelected" value="reference.settingsdialog.IDE.editor.colors.General" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
+  </component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings />
+    </option>
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -679,14 +639,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="21" y="29" width="1400" height="839" extended-state="0" />
-    <editor active="false" />
+    <frame x="21" y="22" width="1400" height="839" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -694,11 +654,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -721,6 +681,78 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/local/app.conf">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django/explore_splunk_app/templates/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1920" max-vertical-offset="2970">
+          <caret line="152" column="33" selection-start-line="152" selection-start-column="33" selection-end-line="152" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../share/splunk/search_mrsparkle/exposed/js/splunkjs/mvc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../share/splunk/search_mrsparkle/exposed/js/splunkjs/splunk.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="94245">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../share/splunk/search_mrsparkle/exposed/js/search.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="13995">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django/explore_splunk_app/tests.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/django/explore_splunk_app/static/explore_splunk_app/custom.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="285">
+          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/default/data/ui/nav/default.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="135">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/default/data/ui/views/default.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="90">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/default/app.conf">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
@@ -781,14 +813,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/default/macros.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
-          <caret line="1" column="25" selection-start-line="1" selection-start-column="25" selection-end-line="1" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/django/explore_splunk_app/tests.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="719">
@@ -801,9 +825,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="719">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#57#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -811,7 +832,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.10431154" vertical-offset="0" max-vertical-offset="719">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -849,12 +869,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/django/explore_splunk_app/templates/home.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0337243" vertical-offset="990" max-vertical-offset="2850">
-          <caret line="113" column="0" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.23020528" vertical-offset="2183" max-vertical-offset="3090">
+          <caret line="156" column="54" selection-start-line="156" selection-start-column="54" selection-end-line="156" selection-end-column="54" />
           <folding />
         </state>
       </provider>
     </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
 
