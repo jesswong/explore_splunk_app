@@ -4,6 +4,9 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="framework" />
+    <orderEntry type="module" module-name="splunk_wftoolkit" />
+    <orderEntry type="module" module-name="search_mrsparkle" />
   </component>
 </module>
 

@@ -29,6 +29,10 @@
             width: 50%;
         }
 
+        #host1, #hsi-graph1, #hsi-graph2, #hsi-graph3, #host2, #host3 {
+            display: none;
+        }
+
     </style>
 {% endblock css %}
 
@@ -47,7 +51,10 @@
                         <p>Index -> Sourcetype</p>
                     </div>
                      <div class="panel-body" id="hostBody">
+                         <div id="hsi-graph0"></div>
+                         <div id="hsi-graph1"></div>
                          <div id="hsi-graph2"></div>
+                         <div id="hsi-graph3"></div>
                      </div>
                 </div>
             </div>
@@ -60,8 +67,23 @@
                         <h4>Enter host(s):</h4>
                       </div>
                      <div class="panel-head">
-                        <div id="host">
-                            {% multidropdown id="hosts" managerid="host_search"
+                        <div id="host0">
+                            {% multidropdown id="hosts0" managerid="host_search"
+                                labelField="host" valueField="host" value="$host$"|token_safe %}
+                         </div>
+
+                         <div id="host1">
+                            {% dropdown id="hosts1" managerid="host_search"
+                                labelField="host" valueField="host" %}
+                         </div>
+
+                         <div id="host2">
+                            {% dropdown id="hosts2" managerid="host_search"
+                                labelField="host" valueField="host" %}
+                         </div>
+
+                         <div id="host3">
+                            {% dropdown id="hosts3" managerid="host_search"
                                 labelField="host" valueField="host" %}
                          </div>
 
@@ -78,6 +100,7 @@
                         </div>
 
                         <div id="results">
+                            {{ "$host$"|token_safe|make_list }}
                             <h4>Splunk Search String:</h4>
                             <div id="index_result"></div>
                         </div>
@@ -92,14 +115,6 @@
 {% endblock content%}
 
 {% block managers %}
-    {% searchmanager
-        id="si_search"
-        search="index=* earliest=-5m@m latest=now | stats count by sourcetype host | sort -count | head 20"
-        earliest_time="-5m@m"
-        latest_time="now"
-        preview=True
-        cache=True %}
-
     {% searchmanager
         id="host_search"
         search="index=_internal hostname source=/opt/splunk/var/log/splunk/metrics.log earliest=-5m@m latest=now | dedup hostname | rename hostname as host | table host"
@@ -138,34 +153,25 @@
             "splunk_wftoolkit/components/sankey/sankey",
         ],
         function(mvc, $, Sankey) {
-            var coords = new Sankey({
-                'id' : 'hsi',
-                'managerid' : 'si_search',
-                'el' : $('#hsi-graph')
-            }).render();
+                var coords = new Sankey({
+                    'id' : 'hsi',
+                    'managerid' : 'hsi_search',
+                    'el' : $('#hsi-graph0')
+                }).render();
 
-            var coords = new Sankey({
-                'id' : 'hsi2',
-                'managerid' : 'hsi_search',
-                'el' : $('#hsi-graph2')
-            }).render();
-
-            var chosenHost = splunkjs.mvc.Components.getInstance("hosts");
-            var indexResult = document.getElementById("index_result");
-            var hostHTML = "";
-            chosenHost.on("change", function() {
-                document.getElementById("index").style.display = "inline";
-                var hostString = chosenHost.val().join(' OR ');
-                indexResult.innerHTML = "host=" + hostString;
-                hostHTML = indexResult.innerHTML;
-                mvc.Components.getInstance("default").set("host", hostString);
-
-            });
+             var chosenHost = splunkjs.mvc.Components.getInstance("hosts0");
+                var indexResult = document.getElementById("index_result");
+                var hostHTML = "";
+                chosenHost.on("change", function() {
+                    document.getElementById("host1").style.display = "inline";
+                    indexResult.innerHTML = "index=" + chosenHost.val();
+                    document.getElementById("indices").style.display="inline";
+                });
 
             var chosenIndex = splunkjs.mvc.Components.getInstance("indices");
             chosenIndex.on("change", function() {
                 document.getElementById("sourcetypes").style.display = "inline";
-                indexResult.innerHTML = "index=" + chosenIndex.val().join(' OR ') + " " + hostHTML;
+                indexResult.innerHTML = "index=" + chosenIndex.val();
 
             });
 

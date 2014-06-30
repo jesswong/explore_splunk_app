@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/explore_splunk_app.iml" filepath="$PROJECT_DIR$/.idea/explore_splunk_app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../framework/.idea/framework.iml" filepath="$PROJECT_DIR$/../framework/.idea/framework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../share/splunk/search_mrsparkle/.idea/search_mrsparkle.iml" filepath="$PROJECT_DIR$/../../../share/splunk/search_mrsparkle/.idea/search_mrsparkle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../splunk_wftoolkit/.idea/splunk_wftoolkit.iml" filepath="$PROJECT_DIR$/../splunk_wftoolkit/.idea/splunk_wftoolkit.iml" />
     </modules>
   </component>
 </project>
