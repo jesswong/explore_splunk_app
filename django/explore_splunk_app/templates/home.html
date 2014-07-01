@@ -117,18 +117,19 @@
             "jquery",
             "splunk_wftoolkit/components/sankey/sankey",
             "splunkjs/mvc/searchmanager",
-            "splunkjs/mvc/postprocessmanager"
+            "splunkjs/mvc/postprocessmanager",
+            "splunkjs/mvc/tableview"
         ],
         function(mvc, $, Sankey) {
             var SearchManager = require("splunkjs/mvc/searchmanager");
             var PostProcessManager = require("splunkjs/mvc/postprocessmanager");
+            var TableView = require("splunkjs/mvc/tableview");
 
             var chosenHost = splunkjs.mvc.Components.getInstance("hosts");
 
             var hostHTML = "";
             var indexHTML = "";
             var sourceHTML = "";
-            var change = 0;
 
             var hostList = new SearchManager({
                 id: "chosen_host",
@@ -153,7 +154,6 @@
                 document.getElementById("sourcetypes").style.display="inline";
                 hostHTML = "host=" + chosenHost.val().join(' OR host=');
                 setSearchString(hostHTML, indexHTML, sourceHTML);
-                change++;
                 var hostToken = mvc.Components.getInstance("default");
 
                 var search = "index=* earliest=-5m@m latest=now host=" + chosenHost.val().join(' OR ') + " | stats count by sourcetype index";
@@ -180,6 +180,12 @@
                 setSearchString(hostHTML, indexHTML, sourceHTML);
             });
 
+            var fieldSearchManager = new SearchManager({
+                id: "field_search",
+                earliest_time: "-5m@m",
+                latest_time: "now",
+                search: mvc.tokenSafe("$fieldSearch$")
+            }, {tokens: true });
 
             var size = 0;
             var tokens = mvc.Components.get('default');
@@ -201,6 +207,17 @@
                          'managerid': 'hsi_search' + size,
                          'el': $(graphId)
                     }).render();
+                    sankey.on("click:link", function() {
+                        document.getElementById("test_sankey").innerHTML = "";
+                        var fieldSearch = "index=* earliest=-5m@m latest=now host=" + inputs[i] + "| fieldsummary | sort -count | table field count | rename field AS \"Field Name\", count AS \"# of Events in Field\" | head 10";
+                        tokens.set("fieldSearch", fieldSearch);
+                        fieldSearchManager.startSearch();
+                        new TableView({
+                            id: "field_table",
+                            managerid: "field_search",
+                            el: $("#test_sankey")
+                        }).render();
+                    });
                     size++;
 
                 }
