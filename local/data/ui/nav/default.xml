@@ -1,4 +1,4 @@
-<nav>
+<nav color="000000">
     <view name="default" default="true"/>
     <a href="/dj/redirector/explore_splunk_app/home">Home</a>
 </nav>
