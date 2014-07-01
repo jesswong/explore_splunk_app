@@ -120,7 +120,6 @@
             var SearchManager = require("splunkjs/mvc/searchmanager");
             var PostProcessManager = require("splunkjs/mvc/postprocessmanager");
 
-
             var chosenHost = splunkjs.mvc.Components.getInstance("hosts");
             var indexResult = document.getElementById("index_result");
             var hostHTML = "";
@@ -141,13 +140,13 @@
                     search: "index=* earliest=-5m@m latest=now host=" + chosenHost.val().join(' OR ') + " | stats count by sourcetype index"
                 });
 
-                var indexSearch = new PostProcessManager({
+                new PostProcessManager({
                     id: "index_search",
                     managerid: "chosen_host" + change,
                     search: "table index"
                 });
 
-                var sourceType = new PostProcessManager({
+                new PostProcessManager({
                     id: "sourcetype_search",
                     managerid: "chosen_host" + change,
                     search: "table sourcetype"
@@ -202,6 +201,7 @@
             hostPanel.appendChild(title);
             hostElement.appendChild(hostPanel);
             var hostGraph = document.createElement("div");
+            hostGraph.style.borderBottom= "1pt solid LightGray";
             hostGraph.class="panel-body";
             var newGraph = document.createElement("div");
             newGraph.id = graphId;
