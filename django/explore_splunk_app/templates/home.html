@@ -194,7 +194,7 @@
                 id: "field_search",
                 earliest_time: "-5m@m",
                 latest_time: "now",
-                search: "index=* earliest=-5m@m latest=now index=$selectedIndex$ | fieldsummary | sort -count | table field count | rename field as \"Field Name\", count as \"# of Events\" | head 10"
+                search: "earliest=-5m@m latest=now index=$selectedIndex$ | fieldsummary | sort -count | table field distinct_count count | rename field as \"Field Name\", count as \"# of Events\" | head 10"
             }, {tokens: true });
 
             var size = 0;
