@@ -34,7 +34,7 @@
             border-bottom: 2px solid gray;
         }
 
-        #index_result {
+        #index_result, #test_sankey {
             font-family: Courier New;
             font-size: 12pt;
         }
@@ -85,7 +85,9 @@
                         <div id="results">
                             <h4>Splunk Search String:</h4>
                             <div id="index_result"></div>
-                            <div id="test_sankey"></div>
+                            <div id="test_sankey">
+                                <h4>Top 10 Fields in Selected Index</h4>
+                            </div>
                         </div>
                       </div>
                  </div>
@@ -184,7 +186,7 @@
                 id: "field_search",
                 earliest_time: "-5m@m",
                 latest_time: "now",
-                search: mvc.tokenSafe("$fieldSearch$")
+                search: "index=* earliest=-5m@m latest=now index=$selectedIndex$ | fieldsummary | sort -count | table field count | rename field as \"Field Name\", count as \"# of Events\" | head 10"
             }, {tokens: true });
 
             var size = 0;
@@ -203,16 +205,17 @@
                     });
 
                     var sankey = new Sankey({
-                        'id': 'hsi_graph' + size,
+                        'id': inputs[i],
                          'managerid': 'hsi_search' + size,
                          'el': $(graphId)
                     }).render();
-                    sankey.on("click:link", function() {
-                        document.getElementById("test_sankey").innerHTML = "";
-                        var fieldSearch = "index=* earliest=-5m@m latest=now host=" + inputs[i] + "| fieldsummary | sort -count | table field count | rename field AS \"Field Name\", count AS \"# of Events in Field\" | head 10";
-                        tokens.set("fieldSearch", fieldSearch);
+                    sankey.on("click:link", function(link) {
+                        var fieldSankey = document.getElementById("test_sankey");
+                        fieldSankey.innerHTML = "";
+                        fieldSankey.style.display = "inline";
+                        tokens.set("selectedIndex", link.target);
                         fieldSearchManager.startSearch();
-                        new TableView({
+                        var fieldTable = new TableView({
                             id: "field_table",
                             managerid: "field_search",
                             el: $("#test_sankey")
