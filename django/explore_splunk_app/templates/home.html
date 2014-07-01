@@ -119,12 +119,15 @@
             var indexResult = document.getElementById("index_result");
             var hostHTML = "";
             var change = 0;
+
+
             chosenHost.on("change", function() {
                 document.getElementById("index").style.display="inline";
                 indexResult.innerHTML = chosenHost.val();
                 change++;
+
                 var chosenHosts = new SearchManager({
-                    id: "chosen_host",
+                    id: "chosen_host" + change,
                     earliest_time: "-5m@m",
                     latest_time: "now",
                     search: "index=* earliest=-5m@m latest=now host=" + chosenHost.val().join(' OR ') + " | stats count by sourcetype index"
@@ -132,13 +135,13 @@
 
                 var indexSearch = new PostProcessManager({
                     id: "index_search",
-                    managerid: "chosen_host",
+                    managerid: "chosen_host" + change,
                     search: "table index"
                 });
 
                 var sourceType = new PostProcessManager({
                     id: "sourcetype_search",
-                    managerid: "chosen_host",
+                    managerid: "chosen_host" + change,
                     search: "table sourcetype"
                 });
             });
@@ -165,13 +168,12 @@
                     newGraph.class = "line";
                     hostGraph.appendChild(newGraph);
                     hostElement.appendChild(hostGraph);
-                    var hostSearch = new PostProcessManager({
+                    var hostSearch = new SearchManager({
                         id: "hsi_search" + size,
-                        managerid: "chosen_host",
                         cache: false,
                         earliest_time: "-5m@m",
                         latest_time: "now",
-                        search: "search host=" + inputs[i] + "| stats count by sourcetype index"
+                        search: "index=* earliest=-5m@m latest=now host=" + inputs[i] + " | stats count by sourcetype index"
                     });
 
                     var id = "hsi" + i;
