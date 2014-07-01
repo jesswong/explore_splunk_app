@@ -59,7 +59,7 @@
                       </div>
                      <div class="panel-head">
                         <div id="host0">
-                            {% multidropdown id="hosts0" managerid="host_search"
+                            {% multidropdown id="hosts" managerid="host_search"
                                 labelField="host" valueField="host" value="$inputs$"|token_safe %}
                          </div>
 
@@ -98,19 +98,6 @@
         latest_time="now"
         cache=True %}
 
-    {% searchmanager
-        id="index_search"
-        search="index=* earliest=-5m@m latest=now host=$host$ | stats count by index sourcetype | table index"|token_safe
-        earliest_time="-5m@m"
-        latest_time="now"
-        cache=True %}
-
-    {% searchmanager
-        id="sourcetype_search"
-        search="index=* earliest=-5m@m latest=now host=$host$ | stats count by index sourcetype | table sourcetype"|token_safe
-        earliest_time="-5m@m"
-        latest_time="now"
-        cache=True %}
 
 {% endblock managers %}
 
@@ -127,13 +114,36 @@
             var SearchManager = require("splunkjs/mvc/searchmanager");
             var PostProcessManager = require("splunkjs/mvc/postprocessmanager");
 
-            var chosenHost = splunkjs.mvc.Components.getInstance("hosts0");
+
+            var chosenHost = splunkjs.mvc.Components.getInstance("hosts");
             var indexResult = document.getElementById("index_result");
             var hostHTML = "";
+            var change = 0;
             chosenHost.on("change", function() {
-                indexResult.innerHTML = "index=" + chosenHost.val();
                 document.getElementById("index").style.display="inline";
+                indexResult.innerHTML = chosenHost.val();
+                change++;
+                var chosenHosts = new SearchManager({
+                    id: "chosen_host",
+                    earliest_time: "-5m@m",
+                    latest_time: "now",
+                    search: "index=* earliest=-5m@m latest=now host=" + chosenHost.val().join(' OR ') + " | stats count by sourcetype index"
+                });
+
+                var indexSearch = new PostProcessManager({
+                    id: "index_search",
+                    managerid: "chosen_host",
+                    search: "table index"
+                });
+
+                var sourceType = new PostProcessManager({
+                    id: "sourcetype_search",
+                    managerid: "chosen_host",
+                    search: "table sourcetype"
+                });
             });
+
+
 
             var size = 0;
             var tokens = mvc.Components.get('default');
@@ -155,13 +165,14 @@
                     newGraph.class = "line";
                     hostGraph.appendChild(newGraph);
                     hostElement.appendChild(hostGraph);
-                    var hostSearch = new SearchManager({
+                    var hostSearch = new PostProcessManager({
                         id: "hsi_search" + size,
+                        managerid: "chosen_host",
                         cache: false,
                         earliest_time: "-5m@m",
                         latest_time: "now",
-                        search: "index=* earliest=-5m@m latest=now host=$output" + i + "$ | stats count by sourcetype index"
-                    }, {tokens: true});
+                        search: "search host=" + inputs[i] + "| stats count by sourcetype index"
+                    });
 
                     var id = "hsi" + i;
                     var graph = "#hostgraph" + i;
