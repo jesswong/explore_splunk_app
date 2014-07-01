@@ -121,7 +121,6 @@
             var PostProcessManager = require("splunkjs/mvc/postprocessmanager");
 
             var chosenHost = splunkjs.mvc.Components.getInstance("hosts");
-            var indexResult = document.getElementById("index_result");
             var hostHTML = "";
             var indexHTML = "";
             var sourceHTML = "";
@@ -130,7 +129,7 @@
             chosenHost.on("change", function() {
                 document.getElementById("sourcetypes").style.display="inline";
                 hostHTML = "host=" + chosenHost.val().join(' OR host=');
-                indexResult.innerHTML = indexHTML + " " + hostHTML + " " + sourceHTML;
+                setSearchString(hostHTML, indexHTML, sourceHTML);
                 change++;
 
                 var chosenHosts = new SearchManager({
@@ -156,14 +155,14 @@
             var chosenIndex = splunkjs.mvc.Components.getInstance("indices");
             chosenIndex.on("change", function() {
                 indexHTML = "index=" + chosenIndex.val().join(' OR index=');
-                indexResult.innerHTML = indexHTML + " " + hostHTML + " " + sourceHTML;
+                setSearchString(hostHTML, indexHTML, sourceHTML);
             });
 
             var chosenSource = splunkjs.mvc.Components.getInstance("sourcetype");
             chosenSource.on("change", function() {
                 document.getElementById("index").style.display = "inline";
                 sourceHTML = "sourcetype=" + chosenSource.val().join(' OR sourcetype=');
-                indexResult.innerHTML = indexHTML + " " + hostHTML + " " + sourceHTML;
+                setSearchString(hostHTML, indexHTML, sourceHTML);
             });
 
 
@@ -209,6 +208,11 @@
             hostGraph.appendChild(newGraph);
             hostElement.appendChild(hostGraph);
             return "#" + graphId;
+        }
+
+        function setSearchString(hostHTML, indexHTML, sourceHTML) {
+            var indexResult = document.getElementById("index_result");
+            indexResult.innerHTML = indexHTML + " " + hostHTML + " " + sourceHTML;
         }
 
     </script>
