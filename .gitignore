@@ -2,3 +2,4 @@
 *.pyo
 *local.meta
 *.DS_Store
+*.pyc
