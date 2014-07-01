@@ -85,6 +85,7 @@
                         <div id="results">
                             <h4>Splunk Search String:</h4>
                             <div id="index_result"></div>
+                            <div id="test_sankey"></div>
                         </div>
                       </div>
                  </div>
@@ -105,6 +106,8 @@
         cache=True %}
 
 
+
+
 {% endblock managers %}
 
 {% block js %}    
@@ -121,35 +124,47 @@
             var PostProcessManager = require("splunkjs/mvc/postprocessmanager");
 
             var chosenHost = splunkjs.mvc.Components.getInstance("hosts");
+
             var hostHTML = "";
             var indexHTML = "";
             var sourceHTML = "";
             var change = 0;
+
+            var hostList = new SearchManager({
+                id: "chosen_host",
+                earliest_time: "-5m@m",
+                latest_time: "now",
+                search: mvc.tokenSafe("$search$")
+            }, { tokens: true });
+
+            var sourceList = new PostProcessManager({
+                id: "sourcetype_search",
+                managerid: "chosen_host",
+                search: mvc.tokenSafe("$sourceSearch$")
+            }, { tokens: true});
+
+            var indexList = new PostProcessManager({
+                id: "index_search",
+                managerid: "chosen_host",
+                search: mvc.tokenSafe("$indexSearch$")
+            }, { tokens: true});
 
             chosenHost.on("change", function() {
                 document.getElementById("sourcetypes").style.display="inline";
                 hostHTML = "host=" + chosenHost.val().join(' OR host=');
                 setSearchString(hostHTML, indexHTML, sourceHTML);
                 change++;
+                var hostToken = mvc.Components.getInstance("default");
 
-                var chosenHosts = new SearchManager({
-                    id: "chosen_host" + change,
-                    earliest_time: "-5m@m",
-                    latest_time: "now",
-                    search: "index=* earliest=-5m@m latest=now host=" + chosenHost.val().join(' OR ') + " | stats count by sourcetype index"
-                });
+                var search = "index=* earliest=-5m@m latest=now host=" + chosenHost.val().join(' OR ') + " | stats count by sourcetype index";
+                hostToken.set("search", search);
+                hostList.startSearch();
 
-                new PostProcessManager({
-                    id: "index_search",
-                    managerid: "chosen_host" + change,
-                    search: "table index"
-                });
+                hostToken.set("sourceSearch", "table sourcetype");
+                sourceList.startSearch();
 
-                new PostProcessManager({
-                    id: "sourcetype_search",
-                    managerid: "chosen_host" + change,
-                    search: "table sourcetype"
-                });
+                hostToken.set("indexSearch", "table index");
+                indexList.startSearch();
             });
 
             var chosenIndex = splunkjs.mvc.Components.getInstance("indices");
@@ -182,10 +197,12 @@
                     });
 
                     var sankey = new Sankey({
+                        'id': 'hsi_graph' + size,
                          'managerid': 'hsi_search' + size,
                          'el': $(graphId)
                     }).render();
                     size++;
+
                 }
             });
         });
