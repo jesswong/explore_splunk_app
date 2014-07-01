@@ -1,4 +1,4 @@
 *.idea*
 *.pyo
 *local.meta
-!
+*.DS_Store
