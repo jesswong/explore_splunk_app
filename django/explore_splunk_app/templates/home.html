@@ -34,9 +34,14 @@
             border-bottom: 2px solid gray;
         }
 
-        #index_result, #test_sankey {
+        #index_result {
             font-family: Courier New;
             font-size: 12pt;
+        }
+
+        #graph {
+            margin-top: 10px;
+            display: none;
         }
 
     </style>
@@ -85,11 +90,14 @@
                         <div id="results">
                             <h4>Splunk Search String:</h4>
                             <div id="index_result"></div>
-                            <div id="test_sankey">
-                                <h4>Top 10 Fields in Selected Index</h4>
-                            </div>
                         </div>
                       </div>
+                     <div class="panel-head" id="graph">
+                         <h4>Top 10 Fields in Selected Index:</h4>
+                     </div>
+                     <div class="panel-body">
+                         <div id="test_sankey"></div>
+                     </div>
                  </div>
             </div>
         </div>
@@ -205,18 +213,17 @@
                     });
 
                     var sankey = new Sankey({
-                        'id': inputs[i],
+                        'id': 'hsi_graph' + size,
                          'managerid': 'hsi_search' + size,
                          'el': $(graphId)
                     }).render();
                     sankey.on("click:link", function(link) {
-                        var fieldSankey = document.getElementById("test_sankey");
-                        fieldSankey.innerHTML = "";
-                        fieldSankey.style.display = "inline";
+                        document.getElementById("test_sankey").innerHTML = "";
+                        document.getElementById("graph").style.display = "inline";
                         tokens.set("selectedIndex", link.target);
                         fieldSearchManager.startSearch();
                         var fieldTable = new TableView({
-                            id: "field_table",
+                            id: "field_table" + size,
                             managerid: "field_search",
                             el: $("#test_sankey")
                         }).render();
