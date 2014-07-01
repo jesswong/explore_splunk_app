@@ -10,8 +10,9 @@
 
 
     <style>
-        h3 {
+        h3, h2, h4, #hosts, #sourcetype, #indices, #index_result {
             margin-bottom: 10px;
+            margin-left: 5px;
         }
 
         #index {
@@ -31,6 +32,11 @@
 
         .line {
             border-bottom: 2px solid gray;
+        }
+
+        #index_result {
+            font-family: Courier New;
+            font-size: 12pt;
         }
 
     </style>
@@ -63,17 +69,17 @@
                                 labelField="host" valueField="host" value="$inputs$"|token_safe %}
                          </div>
 
+                          <div id="sourcetypes">
+                            <h4>Enter sourcetype(s):</h4>
+                            {% multidropdown id="sourcetype" managerid="sourcetype_search"
+                                labelField="sourcetype" valueField="sourcetype" %}
+                        </div>
+
 
                         <div id="index">
                             <h4>Enter index(es):</h4>
                             {% multidropdown id="indices" managerid="index_search"
                                 labelField="index" valueField="index" %}
-                        </div>
-
-                        <div id="sourcetypes">
-                            <h4>Enter sourcetype(s):</h4>
-                            {% multidropdown id="sourcetype" managerid="sourcetype_search"
-                                labelField="sourcetype" valueField="sourcetype" %}
                         </div>
 
                         <div id="results">
@@ -118,12 +124,14 @@
             var chosenHost = splunkjs.mvc.Components.getInstance("hosts");
             var indexResult = document.getElementById("index_result");
             var hostHTML = "";
+            var indexHTML = "";
+            var sourceHTML = "";
             var change = 0;
 
-
             chosenHost.on("change", function() {
-                document.getElementById("index").style.display="inline";
-                indexResult.innerHTML = chosenHost.val();
+                document.getElementById("sourcetypes").style.display="inline";
+                hostHTML = "host=" + chosenHost.val().join(' OR host=');
+                indexResult.innerHTML = indexHTML + " " + hostHTML + " " + sourceHTML;
                 change++;
 
                 var chosenHosts = new SearchManager({
@@ -146,6 +154,18 @@
                 });
             });
 
+            var chosenIndex = splunkjs.mvc.Components.getInstance("indices");
+            chosenIndex.on("change", function() {
+                indexHTML = "index=" + chosenIndex.val().join(' OR index=');
+                indexResult.innerHTML = indexHTML + " " + hostHTML + " " + sourceHTML;
+            });
+
+            var chosenSource = splunkjs.mvc.Components.getInstance("sourcetype");
+            chosenSource.on("change", function() {
+                document.getElementById("index").style.display = "inline";
+                sourceHTML = "sourcetype=" + chosenSource.val().join(' OR sourcetype=');
+                indexResult.innerHTML = indexHTML + " " + hostHTML + " " + sourceHTML;
+            });
 
 
             var size = 0;
@@ -154,20 +174,7 @@
                 var hostElement = document.getElementById("hostElement");
                 hostElement.innerHTML = "";
                 for (var i = 0; i < inputs.length; i++) {
-                    tokens.set("output" + i, inputs[i]);
-                    var hostPanel = document.createElement("div");
-                    hostPanel.class = "panel-head";
-                    var title = document.createElement("h3");
-                    title.innerHTML = "Host: " + inputs[i];
-                    hostPanel.appendChild(title);
-                    hostElement.appendChild(hostPanel);
-                    var hostGraph = document.createElement("div");
-                    hostGraph.class="panel-body";
-                    var newGraph = document.createElement("div");
-                    newGraph.id = "hostgraph" + i;
-                    newGraph.class = "line";
-                    hostGraph.appendChild(newGraph);
-                    hostElement.appendChild(hostGraph);
+                    var graphId = createGraphs(inputs[i], i);
                     var hostSearch = new SearchManager({
                         id: "hsi_search" + size,
                         cache: false,
@@ -176,28 +183,33 @@
                         search: "index=* earliest=-5m@m latest=now host=" + inputs[i] + " | stats count by sourcetype index"
                     });
 
-                    var id = "hsi" + i;
-                    var graph = "#hostgraph" + i;
                     var sankey = new Sankey({
                          'managerid': 'hsi_search' + size,
-                         'el': $(graph)
+                         'el': $(graphId)
                     }).render();
                     size++;
                 }
             });
-
-
-            var chosenIndex = splunkjs.mvc.Components.getInstance("indices");
-            chosenIndex.on("change", function() {
-                document.getElementById("sourcetypes").style.display = "inline";
-                indexResult.innerHTML = "index=" + chosenIndex.val();
-            });
-
-            var chosenSource = splunkjs.mvc.Components.getInstance("sourcetype");
-            chosenSource.on("change", function() {
-                indexResult.innerHTML += " sourcetype=" + chosenSource.val().join(' OR ');
-            });
         });
+
+        function createGraphs(hostName, i) {
+            var graphId = "hostgraph" + i;
+            var hostElement = document.getElementById("hostElement");
+            var hostPanel = document.createElement("div");
+            hostPanel.class = "panel-head";
+            var title = document.createElement("h3");
+            title.innerHTML = "Host: " + hostName;
+            hostPanel.appendChild(title);
+            hostElement.appendChild(hostPanel);
+            var hostGraph = document.createElement("div");
+            hostGraph.class="panel-body";
+            var newGraph = document.createElement("div");
+            newGraph.id = graphId;
+            newGraph.class = "line";
+            hostGraph.appendChild(newGraph);
+            hostElement.appendChild(hostGraph);
+            return "#" + graphId;
+        }
 
     </script>
 {% endblock js %}
