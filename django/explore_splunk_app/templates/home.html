@@ -232,7 +232,7 @@
                 setSearchString(exampleString, 2, chosenSource.val(), "sourcetype=");
             });
 
-            // 
+            //Searches for top 10 popular fields within selected index.
             var fieldSearchManager = new SearchManager({
                 id: "field_search",
                 earliest_time: "-5m@m",
@@ -242,6 +242,9 @@
 
             var size = 0;
             var tokens = mvc.Components.get('default');
+
+            //Token onchange handler. Stores selected index, sourcetype, and host values. Invokes a new search and
+            //creates individual Sankey graphs for each host selected.
             tokens.on("change:inputs", function(model, inputs, options) {
                 var hostElement = document.getElementById("hostElement");
                 hostElement.innerHTML = "";
@@ -260,6 +263,9 @@
                          'managerid': 'hsi_search' + size,
                          'el': $(graphId)
                     }).render();
+
+                    //On click handler for each link selected on the Sankey. Creates a new table graph
+                    //for the index when the user clicks on a link.
                     sankey.on("click:link", function(link) {
                         document.getElementById("eventTable").innerHTML = "";
                         document.getElementById("graph").style.display = "inline";
@@ -272,13 +278,14 @@
                         }).render();
                     });
                     size++;
-
                 }
             });
         });
 
+        //Creates a Sankey Graph in the HTML. Takes in the name of the host and the index number of this host.
+        //Returns the DOM id of the graph generated as a string ("#graphID").
         function createSankeyGraphs(hostName, i) {
-            var graphId = "hostgraph" + i;
+            var graphId = "hostgraph" + i; //unique graphID
             var hostElement = document.getElementById("hostElement");
             var hostPanel = document.createElement("div");
             hostPanel.className = "panel-head";
@@ -305,6 +312,10 @@
             return "#" + graphId;
         }
 
+        //Sets the example search string when the user makes a selection.
+        //Takes in an array of fields the user can select from (ex. host, sourcetypes, indices), index of this field's
+        //string in the array, array of values the user selected, name of the field the values belong to in the form of
+        //"fieldName=".
         function setSearchString(exampleSearch, i, contents, searchField) {
             if (contents.length > 0) {
                 exampleSearch[i] = searchField + contents.join(' OR ' + searchField);
@@ -313,11 +324,9 @@
             }
             var indexResult = document.getElementById("index_result");
             indexResult.innerHTML = "";
-            for (var j = 0; j < 3 ; j++) {
+            for (var j = 0; j < contents.length ; j++) {
                 indexResult.innerHTML += exampleSearch[j] + " ";
             }
         }
-
-
     </script>
 {% endblock js %}
