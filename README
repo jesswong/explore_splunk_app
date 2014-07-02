@@ -1,18 +1,19 @@
 Introduction
 ------------
-Explore Splunk App
+Explore Splunk App allows the user to see where their data is coming from based on the hosts and the amount of data
+that's being fed to different indices. It will also show the 10 most popular fields within the selected index and
+the number of events/distinct events with those fields.
 
-Installation
+Dependencies
 ------------
-Describe how to install your application here (if applicable).
+This app depends on the splunkwftoolkit app, version 1.1 and will run on Splunk 6.x.
 
 Usage
 -----
-Describe how to use your application here.
-
-TODO:
------
-If you intend to upload this application to Splunk Apps, we strongly recommend 
-that you update the app.conf file (located in your app's /default directory) 
-with your name, a one-sentence description of your application, and the
-version number of your application.
+The app will initially populate with hostnames, allowing the user to select multiple hosts to compare to. A Sankey
+chart will appear with each host selected, showing the user the sources the data is coming from and the differing
+amounts of data being fed to different indices. The ability to select multiple sources and indices depends on the
+hosts selected. The Sankey depends only on the hosts, not the sources or indices selected and will not refine itself
+if you select multiple sourcetypes or indices. However, the example search string will refine itself with each
+selection of the sourcetypes and indices. Clicking on a link on the Sankey will show a table with the top 10 fields
+within the selected index, and the number of events/distinct events.
