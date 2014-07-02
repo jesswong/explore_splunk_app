@@ -10,7 +10,9 @@
 
 
     <style>
-        h3, h2, h4, #hosts, #sourcetype, #indices, #index_result {
+        /* CSS style in addition to the Splunk given css files. Positions Sankey graphs and spacing between headings. */
+
+        h2, h4, #hosts, #sourcetype, #indices, #index_result {
             margin-bottom: 10px;
             margin-left: 5px;
         }
@@ -30,10 +32,6 @@
             width: 50%;
         }
 
-        .line {
-            border-bottom: 2px solid gray;
-        }
-
         #index_result {
             font-family: Courier New;
             font-size: 12pt;
@@ -44,21 +42,43 @@
             display: none;
         }
 
+        .source, .index {
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .source {
+            float: left;
+            margin-left: 13px;
+        }
+
+        .index {
+            float: right;
+            margin-right: 10px;
+        }
+
     </style>
 {% endblock css %}
 
 {% block content %}
+
+<!-- HTML for the explore_splunk_app. Displays the area where users can enter multiple hosts, sourcetypes, and indices.
+    Graph is displayed depending on what the user selected as well as an example search string for Splunk. Table graph
+    of the top 10 fields of all events in selected index is displayed when user clicks on a link on the Sankey graph. -->
+
 <div class="dashboard-body container-fluid main-section-body">
     <div class="row">
         <div class="span12 dashboard-header clearfix">
                <h2>Events from Sourcetype to Index based on Hosts (past 5 minutes)</h2>
         </div>
     </div>
+
     <div class="dashboard-row">
         <div class="dashboard-cell span-half">
             <div class="dashboard-panel">
-                <div class="dashboard-element" id="hostElement">
-                </div>
+
+                <!-- Graph area where the Sankey Graphs will be displayed. -->
+                <div class="dashboard-element" id="hostElement"></div>
             </div>
         </div>
 
@@ -69,6 +89,9 @@
                         <h4>Enter host(s):</h4>
                       </div>
                      <div class="panel-head">
+
+                         <!-- Area where users can make multiple selections of hosts, sourcetypes, and indices.
+                                Sourcetype and index are initially hidden. -->
                         <div id="host0">
                             {% multidropdown id="hosts" managerid="host_search"
                                 labelField="host" valueField="host" value="$inputs$"|token_safe %}
@@ -87,16 +110,19 @@
                                 labelField="index" valueField="index" %}
                         </div>
 
+                         <!-- View of example search string generated. -->
                         <div id="results">
-                            <h4>Splunk Search String:</h4>
+                            <h4>Example Search String:</h4>
                             <div id="index_result"></div>
                         </div>
                       </div>
+
+                     <!-- Table graph that is displayed only when the user clicks on a link on the Sankey Graph. -->
                      <div class="panel-head" id="graph">
                          <h4>Top 10 Fields in Selected Index:</h4>
                      </div>
                      <div class="panel-body">
-                         <div id="test_sankey"></div>
+                         <div id="eventTable"></div>
                      </div>
                  </div>
             </div>
@@ -108,6 +134,7 @@
 {% endblock content%}
 
 {% block managers %}
+    <!-- Django syntax Splunk search managers are handled here. This search manager populates the hosts the user can select. -->
     {% searchmanager
         id="host_search"
         search="index=_internal hostname source=/opt/splunk/var/log/splunk/metrics.log earliest=-5m@m latest=now | dedup hostname | rename hostname as host | table host"
@@ -122,6 +149,9 @@
 
 {% block js %}    
     <script>
+        /* Handles the interactivity of the webpage and reacts accordingly. Uses the splunk toolkit and splunkjs to
+            create the Sankey graphs, search and post process managers, and table view on the page. */
+
         require([
             "splunkjs/ready!",
             "jquery",
@@ -130,17 +160,24 @@
             "splunkjs/mvc/postprocessmanager",
             "splunkjs/mvc/tableview"
         ],
+        /* Starter function that handles the window's display and interactivity. Takes in mvc, jqeury, and graph type. */
         function(mvc, $, Sankey) {
+            //So I can use Search Manager.
             var SearchManager = require("splunkjs/mvc/searchmanager");
+
+            //So I can use PostProcess Manager.
             var PostProcessManager = require("splunkjs/mvc/postprocessmanager");
+
+            //So I can use the table graph.
             var TableView = require("splunkjs/mvc/tableview");
 
+            //Keeps track of the multiple selector view of the hosts.
             var chosenHost = splunkjs.mvc.Components.getInstance("hosts");
 
-            var hostHTML = "";
-            var indexHTML = "";
-            var sourceHTML = "";
+            //Tracks the example search string being generated.
+            var exampleString = ["", "", ""];
 
+            //Finds all sources and indices based on the selected hosts.
             var hostList = new SearchManager({
                 id: "chosen_host",
                 earliest_time: "-5m@m",
@@ -148,22 +185,25 @@
                 search: mvc.tokenSafe("$search$")
             }, { tokens: true });
 
+            // Uses the previous search results to populate sourcetypes.
             var sourceList = new PostProcessManager({
                 id: "sourcetype_search",
                 managerid: "chosen_host",
                 search: mvc.tokenSafe("$sourceSearch$")
             }, { tokens: true});
 
+            // Uses previous search results to populate indices.
             var indexList = new PostProcessManager({
                 id: "index_search",
                 managerid: "chosen_host",
                 search: mvc.tokenSafe("$indexSearch$")
             }, { tokens: true});
 
+            //On change handler for the multiple host selector. Invokes a new search with all the hosts selected to
+            // repopulate all the sourcetypes and indices. Displays the multiple selector for the sourcetypes.
             chosenHost.on("change", function() {
                 document.getElementById("sourcetypes").style.display="inline";
-                hostHTML = "host=" + chosenHost.val().join(' OR host=');
-                setSearchString(hostHTML, indexHTML, sourceHTML);
+                setSearchString(exampleString, 0, chosenHost.val(), "host=");
                 var hostToken = mvc.Components.getInstance("default");
 
                 var search = "index=* earliest=-5m@m latest=now host=" + chosenHost.val().join(' OR ') + " | stats count by sourcetype index";
@@ -177,19 +217,22 @@
                 indexList.startSearch();
             });
 
+            //On change handler for the multiple index selector. Regenerates the example search string with the new
+            // index selected.
             var chosenIndex = splunkjs.mvc.Components.getInstance("indices");
             chosenIndex.on("change", function() {
-                indexHTML = "index=" + chosenIndex.val().join(' OR index=');
-                setSearchString(hostHTML, indexHTML, sourceHTML);
+                setSearchString(exampleString, 1, chosenIndex.val(), "index=");
             });
 
+            //On change handler for the multiple source selector. Regenerates the example search string with the new
+            // sources selected.
             var chosenSource = splunkjs.mvc.Components.getInstance("sourcetype");
             chosenSource.on("change", function() {
                 document.getElementById("index").style.display = "inline";
-                sourceHTML = "sourcetype=" + chosenSource.val().join(' OR sourcetype=');
-                setSearchString(hostHTML, indexHTML, sourceHTML);
+                setSearchString(exampleString, 2, chosenSource.val(), "sourcetype=");
             });
 
+            // 
             var fieldSearchManager = new SearchManager({
                 id: "field_search",
                 earliest_time: "-5m@m",
@@ -203,7 +246,7 @@
                 var hostElement = document.getElementById("hostElement");
                 hostElement.innerHTML = "";
                 for (var i = 0; i < inputs.length; i++) {
-                    var graphId = createGraphs(inputs[i], i);
+                    var graphId = createSankeyGraphs(inputs[i], i);
                     var hostSearch = new SearchManager({
                         id: "hsi_search" + size,
                         cache: false,
@@ -218,7 +261,7 @@
                          'el': $(graphId)
                     }).render();
                     sankey.on("click:link", function(link) {
-                        document.getElementById("test_sankey").innerHTML = "";
+                        document.getElementById("eventTable").innerHTML = "";
                         document.getElementById("graph").style.display = "inline";
                         tokens.set("selectedIndex", link.target);
                         fieldSearchManager.startSearch();
@@ -234,30 +277,47 @@
             });
         });
 
-        function createGraphs(hostName, i) {
+        function createSankeyGraphs(hostName, i) {
             var graphId = "hostgraph" + i;
             var hostElement = document.getElementById("hostElement");
             var hostPanel = document.createElement("div");
-            hostPanel.class = "panel-head";
+            hostPanel.className = "panel-head";
             var title = document.createElement("h3");
             title.innerHTML = "Host: " + hostName;
             hostPanel.appendChild(title);
             hostElement.appendChild(hostPanel);
+            var sourcetypes = document.createElement("div");
+            sourcetypes.innerHTML = "Sourcetype";
+            sourcetypes.className = "source";
+            hostElement.appendChild(sourcetypes);
+            var index = document.createElement("div");
+            index.innerHTML = "Index";
+            index.className = "index";
+            hostElement.appendChild(index);
             var hostGraph = document.createElement("div");
             hostGraph.style.borderBottom= "1pt solid LightGray";
-            hostGraph.class="panel-body";
+            hostGraph.className = "panel-body";
             var newGraph = document.createElement("div");
             newGraph.id = graphId;
-            newGraph.class = "line";
+            //newGraph.class = "line";
             hostGraph.appendChild(newGraph);
             hostElement.appendChild(hostGraph);
             return "#" + graphId;
         }
 
-        function setSearchString(hostHTML, indexHTML, sourceHTML) {
+        function setSearchString(exampleSearch, i, contents, searchField) {
+            if (contents.length > 0) {
+                exampleSearch[i] = searchField + contents.join(' OR ' + searchField);
+            } else {
+                exampleSearch[i] = "";
+            }
             var indexResult = document.getElementById("index_result");
-            indexResult.innerHTML = indexHTML + " " + hostHTML + " " + sourceHTML;
+            indexResult.innerHTML = "";
+            for (var j = 0; j < 3 ; j++) {
+                indexResult.innerHTML += exampleSearch[j] + " ";
+            }
         }
+
 
     </script>
 {% endblock js %}
