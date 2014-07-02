@@ -12,16 +12,12 @@
     <style>
         /* CSS style in addition to the Splunk given css files. Positions Sankey graphs and spacing between headings. */
 
-        h2, h4, #hosts, #sourcetype, #indices, #index_result {
+        h2, h4, #hosts, #sourcetype, #indices, #index_result, #selectHost {
             margin-bottom: 10px;
             margin-left: 5px;
         }
 
-        #index {
-            display: none;
-        }
-
-        #sourcetypes {
+        #index, #about, #sourcetypes {
             display: none;
         }
 
@@ -52,9 +48,31 @@
             margin-left: 13px;
         }
 
-        .index {
+        .index, #learnMore {
             float: right;
             margin-right: 10px;
+        }
+
+        #learnMore {
+            margin-top: 10px;
+        }
+
+        #selectHost {
+            font-size: 10pt;
+            color: gray;
+        }
+
+        #about {
+            clear: left;
+            border: 1px solid LightGray;
+            margin: 10px;
+            margin-left: 17px;
+            background-color: white;
+            font-family: Arial;
+        }
+
+        ul > li {
+            margin: 5px;
         }
 
     </style>
@@ -70,6 +88,18 @@
     <div class="row">
         <div class="span12 dashboard-header clearfix">
                <h2>Events from Sourcetype to Index based on Hosts (past 5 minutes)</h2>
+        </div>
+        <button id="learnMore">Learn More</button>
+        <div id="about">
+            <ul>
+                <li>With each host you select, a separate Sankey graph will be displayed, mapping the sourcetypes
+                to the indices. The thicker the links, the more data is being fed to that index. </li>
+                <li> The graph is not dependent on the sourcetypes and indices you select, but rather the hosts you select.</li>
+                <li>The example search string is dependent on the hosts, sourcetypes, and indices. Searches in Splunk are
+                implicit 'AND' unless explicitly stated otherwise.</li>
+                <li>You can click on a link on any of the Sankey graph and a table with the top 10 fields within the selected
+                index will show up.</li>
+            </ul>
         </div>
     </div>
 
@@ -87,6 +117,7 @@
                  <div class="dashboard-element">
                      <div class="panel-head">
                         <h4>Enter host(s):</h4>
+                         <p id="selectHost">Select a host to begin</p>
                       </div>
                      <div class="panel-head">
 
@@ -199,10 +230,15 @@
                 search: mvc.tokenSafe("$indexSearch$")
             }, { tokens: true});
 
+            $('#learnMore').click(function() {
+                $('#about').toggle();
+            });
+
             //On change handler for the multiple host selector. Invokes a new search with all the hosts selected to
             // repopulate all the sourcetypes and indices. Displays the multiple selector for the sourcetypes.
             chosenHost.on("change", function() {
                 document.getElementById("sourcetypes").style.display="inline";
+                document.getElementById("selectHost").style.display="none";
                 setSearchString(exampleString, 0, chosenHost.val(), "host=");
                 var hostToken = mvc.Components.getInstance("default");
 
