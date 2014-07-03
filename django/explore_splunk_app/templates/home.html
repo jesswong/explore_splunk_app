@@ -87,7 +87,7 @@
 <div class="dashboard-body container-fluid main-section-body">
     <div class="row">
         <div class="span12 dashboard-header clearfix">
-               <h2>Events from Sourcetype to Index based on Hosts (past 5 minutes)</h2>
+               <h2>Events from Sourcetype to Index based on Hosts</h2>
         </div>
         <button id="learnMore">Learn More</button>
         <div id="about">
@@ -166,12 +166,11 @@
 
 {% block managers %}
     <!-- Django syntax Splunk search managers are handled here. This search manager populates the hosts the user can select. -->
-    {% searchmanager
+    {% savedsearchmanager
         id="host_search"
-        search="index=_internal hostname source=/opt/splunk/var/log/splunk/metrics.log earliest=-5m@m latest=now | dedup hostname | rename hostname as host | table host"
-        earliest_time="-5m@m"
-        latest_time="now"
-        cache=True %}
+        searchname="List of Host Names"
+        cache=True
+        app="search" %}
 
 
 
