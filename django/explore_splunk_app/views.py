@@ -8,3 +8,10 @@ def home(request):
         "message": "Hello World from explore_splunk_app!",
         "app_name": "explore_splunk_app"
     }
+
+@render_to('explore_splunk_app:retention.html')
+@login_required
+def retention(request):
+    return {
+        "app_name": "explore_splunk_app"
+    }
