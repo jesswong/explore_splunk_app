@@ -12,6 +12,10 @@
        .span-half {
             width: 50%;
         }
+
+       h4 {
+            margin-left: 5px;
+       }
    </style>
 {% endblock css %}
 
@@ -21,12 +25,12 @@
             <div class="dashboard-cell span-half">
                 <div class="dashboard-panel">
                      <div class="dashboard-element">
-                         <div class="panel-head">
-                            <h4>Select an index:</h4>
-                         </div>
                          <div class="panel-body">
+                             <h4>Select an index:</h4>
                             {% dropdown id="index" managerid="all_index"
                                labelField="index" valueField="index" value="$inputs$"|token_safe %}
+                             <h4>Results:</h4>
+                              {% table id="indexResults" managerid="earliest_index_time" %}
                          </div>
                      </div>
                 </div>
@@ -38,13 +42,66 @@
 {% block managers %}
     {% searchmanager
         id="all_index"
-        cache=false
+        cache=False
         preview=True
+        earliest_time="-15m@m"
+        latest_time="now"
         search="index=* | dedup index | table index"
     %}
+
+    {% savedsearchmanager
+        id="earliest_index_time"
+        searchname="First Index Times"
+        app="search" %}
+
 {% endblock managers %}
 
 {% block js %}
     <script>
+        require([
+            "splunkjs/ready!",
+            "jquery",
+            "splunkjs/mvc/searchmanager",
+            "splunkjs/mvc/postprocessmanager",
+            "splunkjs/mvc/tableview"
+        ],
+        function(mvc, $) {
+            var PostProcessManager = require("splunkjs/mvc/postprocessmanager");
+            var SearchManager = require("splunkjs/mvc/searchmanager");
+            var TableView = require("splunkjs/mvc/tableview");
+
+            /*var indexEventSearch = new PostProcessManager({
+                id: "index_events",
+                managerid: "earliest_index_time",
+                search: "search index=" + mvc.tokenSafe("$inputs$")
+            }, { tokens: true});
+
+
+
+            var indexResults = new TableView({
+                managerid: "index_events",
+                el: $('index_results')
+            });*/
+
+           /*var timeEventSearch = new SearchManager({
+                id: "first_events",
+                search: "| metadata index=" + mvc.tokenSafe("$index$") + "type=hosts | stats min(firstTime) as firstTime | convert ctime(firstTime)"
+            }, { tokens: true});
+
+             var eventResults = new TableView({
+                managerid: "first_events",
+                el: $('event_results')
+            });*/
+
+
+
+            var indexList = splunkjs.mvc.Components.getInstance("index");
+            indexList.on("change", function() {
+                mvc.Components.getInstance("default").set("index", indexList.val());
+                indexEventSearch.startSearch();
+                //timeEventSearch.startSearch();
+                document.getElementById("test").innerHTML = indexList.val();
+            })
+        });
     </script>
 {% endblock js %}
