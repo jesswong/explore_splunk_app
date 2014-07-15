@@ -1,6 +1,0 @@
-[savedsearches/List%20of%20Host%20Names]
-access = read : [ * ], write : [ * ]
-export = system
-owner = admin
-version = 6.1.1
-modtime = 1404766135.806406000

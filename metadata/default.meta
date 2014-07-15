@@ -17,3 +17,8 @@ export = system
 access = read : [ * ], write : [ * ]
 export = system
 
+[savedsearches]
+access = read : [ * ], write : [ admin ]
+export = system
+
+
