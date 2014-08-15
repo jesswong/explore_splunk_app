@@ -1,0 +1,26 @@
+.barchart {
+    height: 450px;
+}
+
+.dashboard-row3 {
+  /*  display: none; */
+}
+
+
+.left {
+    float: left;
+    width: 33%;
+    margin: 2px;
+}
+
+.middle {
+    float: left;
+    width: 33%;
+    margin: 2px;
+}
+
+.right {
+    float: left;
+    width: 33%;
+    margin: 2px;
+}

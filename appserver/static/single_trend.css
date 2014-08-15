@@ -1,0 +1,59 @@
+.single-trend {
+    position: relative;
+    top: -15px;
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+}
+.single-trend i {
+    font-size: 28px;
+    vertical-align: text-bottom;
+}
+.single-trend.nochange, .single-trend.nochange i {
+    font-size: 14px;
+}
+.single-trend.increase {
+    color: #d85d3c;
+}
+.single-trend.decrease {
+    color: #65A637;
+}
+
+.single_heading {
+    font-size: 12pt;
+    text-align: center;
+    position: relative;
+    left: 35px;
+    margin-bottom: 15px;
+}
+
+.single_description {
+    font-size: 8pt;
+    color: gray;
+    text-align: center;
+}
+
+/*.heading_container {
+    margin-bottom: 15px;
+}*/
+
+#cpu_graph, #mem_graph {
+    display: none;
+}
+
+.percent {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.low {
+    color: green;
+}
+
+.medium {
+    color: #FFCC33;
+}
+
+.severe {
+    color: red;
+}

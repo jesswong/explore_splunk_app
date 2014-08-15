@@ -1,0 +1,21 @@
+<style>
+    h2 {
+        color: #4466bb;
+    }
+</style>
+<script type="text/javascript">
+    function set_token(field) {
+        var newValue = $(field).prev('input').val();
+        
+        var tokenModels = splunkjs.mvc.Components;
+        tokenModels.get('url').setFormToken('token', newValue);
+        tokenModels.get('default').set('token', newValue);
+    }
+</script>
+<div style="border: 1px dashed #004099; padding: 10px; clear: both;">
+    <h1>Static HTML loaded from disk</h1>
+    <p>Token replacement should happen here, use "$$token$$": <span style="color:blue;">$token$</span></p>
+    <p>This is loaded from an external html file in the '/etc/apps/SimpleXML/appserver/static' directory</p>
+    <p>Also loading this html file will change <b>h2</b> tags to a blue color.</p>
+    <input id="textbox" type="text" style="width: 200px;" value="$token$" placeholder="enter some text here"/> <button class="btn" onclick="set_token(this)">Set $$token$$</button>
+</div>

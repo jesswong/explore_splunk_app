@@ -1,0 +1,174 @@
+<h1>About the Simple XML Examples app</h1>
+
+<a href="#gettingstarted">Getting started</a><br/>
+<a href="#references">References</a>
+
+<a name="gettingstarted"></a>
+<h2>Getting started</h2>
+
+<p>
+     This Simple XML app gives you a hands-on way to learn the basic concepts and tools needed to create dashboards using Simple XML.  Simple XML is the easiest way to develop dashboards, requiring little or no programming knowledge.
+</p>
+<p>
+     Now that you've installed the app, you have all you need to begin creating your own dashboard.
+</p>
+<p>
+     Besides this <b>Overview</b> this app provides the following navigation tabs:
+     <ul>
+          <li>
+               <b>Examples</b><br/><br/>
+               Study these examples to begin creating your own dashboards. Each example gives you a recipe for implementing some dashboard element, beginning with the most basic and progressing to more complex, custom elements.  You'll learn basic Simple XML concepts and how to work with the built-in tools.  You can review the examples of elements most relevant to your project.<br/><br/>
+               Each example includes an actual runtime visualization followed by a <i>Description</i> that includes:<br/><br/>
+               <ul>
+                    <li>
+                         The goal of the example and expected results.
+                    </li>
+                    <li>
+                         The Simple XML parts used in the example and how to implement them.
+                    </li>
+                    <li>
+                         Alternative solutions to consider and recommended next steps.
+                    </li>
+                    <li>
+                         The source code used to create the example.  Cut-and-paste the source code into your <b>Dashboard</b> <b>Edit Source</b> dialog to jumpstart your own dashboard.
+                    </li>
+               </ul><br/>
+               Elements and techniques are categorized to make it easy to locate the right element, and related elements, for your dashboard.  Many of the simple element examples are complemented by variations on the example that show how elements can be extended to provide a richer experience.<br/><br/>
+          </li>
+          <li>
+               <b>Dashboards</b><br/><br/>
+               This tab takes you to the built-in <b>Visual Editor</b> and <b>XML Source Editor</b> dashboard GUI. Use this function to experiment with creating your own dashboards, using what you learned in the <b>Examples</b> tab.<br/><br/>
+          </li>
+          <li>
+               <b>Search</b><br/><br/>
+               This is the common Splunk Enterprise search dashboard. You can experiment with search strings to see results before including the search in your own dashboard.<br/><br/>
+          </li>
+     </ul>
+</p>
+
+<h2>How Simple XML fits in the Splunk Enterprise Web Framework</h2>
+
+<p>
+     Simple XML is part of the Splunk Enterprise Web Framework.  The framework provides several methods for creating rich dashboards as shown in the following taxonomy:
+<p>
+     <img src="http://docs.splunk.com/images/7/75/WebFwork.png" alt="Web Framework Taxonomy" style="display: block; margin-left: auto; margin-right: auto">
+</p>
+<p>
+     <i><b>Note: </b>The parts of the framework taxonomy covered by this app are highlighted.</i>
+</p>
+<p>
+     The app creation methods differ in the amount of programming needed to implement a dashboard.  As you might expect, more programming gives you more customization options.  Simple XML requires minimal programming knowledge, whereas the other methods require programming knowledge, depending on programming environment and technology complexity.
+</p>
+<p>
+     This Simple XML Examples app shows you how to create dashboards using Splunk Enterprise <i><a href="#SimpleXML">Simple XML</a></i> and <i><a href="#SimpleXMLextensions">Simple XML extensions</a></i>.  <i>Simple XML extensions</i> are ideal if you need a few customizations while retaining the ability to easily edit the dashboard.
+</p>
+<p>
+     The <i>Custom HTML + Splunk Enterprise JavaScript stack</i> and <i>Django bindings</i> are methods available with the new Splunk Enterprise Web Framework.
+</p>
+<p>
+     The <i>Module System</i> method employs legacy Splunk Enterprise application framework technologies, including modules and Advanced XML.
+</p>
+<p>
+     Choose the method that matches your technology preference and customization requirements.  The <i>Simple XML</i> solution includes the following capabilities, which gives you powerful facilities for creating rich dashboards:
+</p>
+
+<ul>
+     <li>
+<a name="SimpleXML"></a>
+<h3>Simple XML</h3>
+
+<p>
+     Simple XML is a simplified markup language for implementing Splunk Enterprise dashboards. Built-in tools are provided to make it easy to create your dashboard:
+     <ul>
+          <li>
+               <b>Visual Editor</b><br/>
+               A powerful GUI tool for working directly with Simple XML.<br/><br/>
+          </li>
+          <li>
+               <b>XML Source Editor</b><br/>
+               Directly editing the underlying XML to leverage options and configurations not available using the <b>Visual Editor</b>. Directly editing the XML has no effect on your ability to continue to use the <b>Visual Editor</b> or the integrated PDF generation.</li>
+     </ul>
+</p>
+<p>
+     <h4>Features</h4>
+     <ul>
+          <li>
+               <b>Form Inputs</b><br/>Add form inputs to your dashboard, such as text inputs, dropdowns, and radio buttons.<br/><br/>
+          </li>
+          <li>
+               <b>Advanced Panel Format Options</b><br/>Add configuration options to your chart/table/single/event dashboard element which are not supported using the <b>Visual Editor</b>. See the <a href="http://www.google.com">Simple XML view reference</a> for detailed information.<br/><br/>
+          </li>
+          <li>
+               <b>HTML panel</b><br/>Add custom HTML as a panel within your dashboard.<br/><br/>
+          </li>
+          <li>
+               <b>Dynamic drilldown</b><br/>Construct custom workflows within your app, setting the target of a drilldown event to be another dashboard in your app, and pass attributes from the search results through the URL. Dynamic drilldown is supported by both tables and charts.<br/><br/>
+          </li>
+          <li>
+               <b>Maps</b><br/>Leverage the Splunk Enterprise integrated maps visualization within your dashboard.<br/><br/>
+          </li>
+          <li>
+               <b>Post-process Searching</b><br/>Run a single background search and execute multiple <tt>searchPostProcess</tt> searches to drive dashboard panels.<br/><br/>
+          </li>
+          <li>
+               <b>PDF generation</b><br/>Generate a PDF of any Simple XML-based dashboard.<br/><br/>
+          </li>
+          <li>
+               <b>Preserve Drag-and-Drop</b><br/>Continue editing dashboards using the drag-and-drop dashboard editor.<br/><br/>
+          </li>
+          <li>
+               <b>Auto-Refresh Page</b><br/>Configure your dashboard to periodically refresh.<br/><br/>
+          </li>
+     </ul>
+</p>
+     </li>
+     <li>
+<a name="SimpleXMLextensions"></a>
+<h3>Simple XML extensions</h3>
+
+<p>
+     Several Simple XML extension points are provided to modify layout, add new visualizations, and customize behaviors for a simple dashboard. With Simple XML extensions, you can still use the <b>Visual Editor</b> and PDF generation is available.
+</p>
+<p>
+     <h4>Features</h4>
+     <ul>
+          <li>
+               <b>Stylesheet</b><br/>Apply a custom CSS stylesheet to a single dashboard within an app.<br/><br/>
+          </li>
+          <li>
+               <b>Layout</b><br/>Make simple layout changes, such as rearrange form/dashboard elements and hide panels.<br/><br/>
+          </li>
+          <li>
+               <b>Token Setting</b><br/>Set custom tokens for use throughout the dashboard page.<br/><br/>
+          </li>
+          <li>
+               <b>Custom Viz</b><br/>Integrate a custom visualization as a panel.<br/><br/>
+          </li>
+          <li>
+               <b>Custom Drilldown</b><br/>Customize the drilldown event for tables, charts, and other elements.<br/><br/>
+          </li>
+          <li>
+               <b>Table Cell Renderer</b><br/>Include custom styles and behaviors within table cells.<br/><br/>
+          </li>
+     </ul>
+</p>
+     </li>
+</ul>
+
+<a name="references"/>
+<h1>References</h1>
+
+<ul>
+     <li>
+          <a href="http://docs.splunk.com/Documentation/Splunk/6.0/Viz/WebFramework">Dashboards: An overview</a>
+     </li>
+     <li>
+          <a href="http://docs.splunk.com/Documentation/Splunk/6.0/Viz/CreateandeditdashboardsviatheUI">Build dashboards in Splunk Web</a>
+     </li>
+     <li>
+          <a href="http://docs.splunk.com/Documentation/Splunk/6.0/Viz/PanelreferenceforSimplifiedXML">Simple XML view reference</a>
+     </li>
+     <li>
+          <a href="/app/simple_xml_examples/basics">Simple XML JavaScript Basics</a>
+     </li>
+</ul>

@@ -1,0 +1,154 @@
+<h2>Simple XML JavaScript Basics</h2>
+
+<p>
+    Dashboards are composed of JavaScript components. Simple XML gives you a way to load custom JavaScript and CSS to customize the look-and-feel of your dashboard.
+</p>
+
+<h3>Dependencies</h3>
+<p>
+	Simple XML JavaScript depends on the following core JavaScript technologies:
+<ul>
+    <li>
+        <a href="http://requirejs.org" class="external">Require.js</a>
+        <p>Retrieves and manages dependencies for module loading.</p>
+    </li>
+    <li>
+        <a href="http://backbonejs.org" class="external">Backbone.js</a>
+        <p>Provides a lightweight client-side model/view framework.</p>
+    </li>
+</ul>
+
+<h3>Dashboard components</h3>
+<p>
+	Dashboard components have the following properties:
+<ul>
+    <li>Components are divided into component types:
+		<ul>
+			<li>
+				Managers:
+			</li>
+			<li>
+				Views: Dashboard panels wrap view components, such as common UI header and progressbar components, and visualizations, such as a chart or table.  Here is an example of a visualization panel:
+<pre class="prettyprint linenums"><code>var chartPanel = splunkjs.mvc.Components.get(&quot;chart1&quot;);
+chartPanel.getVisualization(function(chartview) {
+	chartview.settings.set(&quot;charting.legend.placement&quot;, &quot;none&quot;);
+});</code>
+</pre>
+			</li>
+		</ul>
+	</li>
+    <li>Each component has a unique ID.</li>
+    <li>Components are retrieved with a getter method, using the component ID:
+		<ul>
+			<li><code class="prettyprint inline">var componentInstance = splunkjs.mvc.Components.get("&lt;id&gt;");</code></li>
+		</ul>
+	</li>
+    <li>Component settings can be read or modified with the following getter and setter:
+        <ul>
+            <li><code class="inline prettyprint">componentInstance.settings.get("somesetting");</code></li>
+            <li><code class="inline prettyprint">componentInstance.settings.set("somesetting", "newvalue");</code></li>
+        </ul>
+    </li>
+</ul>
+</p>
+
+<h3>Token Binding</h3>
+
+<p>
+    Token replacement is enabled for the settings model of almost all Simple XML components. There are multiple token models:
+	<ul>
+		<li>
+			<code>default</code>
+		</li>
+		<li>
+			<code>submitted</code>
+		</li>
+		<li>
+			<code>url</code>
+		</li>
+	</ul>
+</p>
+
+<h4>Getting token value</h4>
+<p>
+	The following code snippet retrieves a token, for the <code>default</code> token model:
+<pre class="prettyprint linenums"><code>var defaultTokenModel = splunkjs.mvc.Components.get(&quot;default&quot;);
+alert(defaultTokenModel.get(&quot;sometoken&quot;)); // Alerts the value for $sometoken$</code></pre>
+</p>
+
+<h4>Setting a token value</h4>
+<p>
+	The following code snippet sets a token value, for the <code>default</code> token model:
+<pre class="prettyprint linenums"><code>var defaultTokenModel = splunkjs.mvc.Components.get(&quot;default&quot;);
+defaultTokenModel.set(&quot;sometoken&quot;, &quot;newvalue&quot;));</code></pre>
+</p>
+
+<h4>Handling a change in token value</h4>
+<p>
+	The following code snippet specifies a function to handle a change in the token value, for the <code>default</code> token model:
+<pre class="prettyprint linenums"><code>var defaultTokenModel = splunkjs.mvc.Components.get(&quot;default&quot;);
+
+defaultTokenModel.on(&quot;change:sometoken&quot;, function(newValue) {
+	if(!newValue) { // newValue is empty
+		splunkjs.mvc.Components.get(&quot;mychart&quot;).$el.hide(); // Hide a chart
+	}
+});</code></pre>
+</p>
+
+<h3>Auto-discovery</h3>
+
+<p>
+    Auto-discovery is an advanced technique for re-using custom components, especially views, in multiple dashboards and apps.
+</p>
+<p>
+    To enable auto-discovery for instantiating views and managers declared in the DOM, you need to include JavaScript similar to the following example in the dashboard: 
+
+<pre class="prettyprint linenums"><code>&lt;div id=&quot;tagcloud&quot;
+     class=&quot;splunk-view&quot;
+     data-require=&quot;/static/app/simple_xml_examples/components/tagcloud/tagcloud.js&quot;
+     data-options=&apos;{
+            &quot;minFontSize&quot;: 14,
+            &quot;maxFontSize&quot;: 55,
+            &quot;managerid&quot;: &quot;tagcloud-search&quot;,
+            &quot;magnitudeField&quot;: &quot;cpu_seconds&quot;,
+            &quot;labelField&quot;: &quot;processor&quot;
+         }&apos;&gt;
+&lt;/div&gt;</code></pre>
+
+Auto-discovery traverses the <abbr title="Document Object Model">DOM</abbr> to find <code>splunk-view</code> or <code>splunk-manager</code> class elements.
+</p>
+
+<p>
+	The <code>splunkjs/ready</code> script needs to be loaded to perform auto-discovery:
+</p>
+
+<pre class="prettyprint linenums"><code>require([&apos;splunkjs/mvc/simplexml/ready!&apos;], function(){
+    require([&apos;splunkjs/ready!&apos;], function(){
+        // The splunkjs/ready loader script will automatically instantiate all elements
+        // declared in the dashboard&apos;s HTML.
+    });
+});</code></pre>
+
+<div class="alert alert-info">
+    <i class="icon-alert"></i>
+    Note: the <code>splunkjs/ready!</code> loader script should not be loaded before the dashboard finishes rendering. This can be ensured by loading it within a <code>splunkjs/mvc/simplexml/ready!</code> loader script callback.
+</div>
+
+<p>
+    Choose one of the following methods for including the above auto-discovery code snippet:
+    <ul>
+        <li>
+			Use a dedicated JavaScript file in the <code>appserver/static</code> directory, for example <code>appserver/static/autodiscover.js</code>, and load the code from the dashboard using the custom <code>script</code> attribute:
+
+<pre class="prettyprint linenums"><code>&lt;dashboard script=&quot;autodiscover.js&quot;&gt;
+    ...
+&lt;/dashboard&gt;</code></pre>
+
+        </li>
+        <li>
+            Include the code in <code>appserver/static/dashboard.js</code>, which loads automatically for every
+            Simple XMl dashboard within the app. With this method, auto-discovery works for all dashboards without specifically
+            enabling it.
+        </li>
+    </ul>
+</p>

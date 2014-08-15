@@ -1,0 +1,78 @@
+.span-half {
+    width: 100%;
+    margin: 5px;
+    float: left;
+}
+
+.dashboard-row1, dashboard-row {
+    width: 45%;
+    float: left;
+}
+
+.dashboard-row2 {
+    width: 50%;
+    float: right;
+}
+
+#testButton {
+    background-color: pink;
+}
+
+#data {
+    display:none;
+}
+
+#sendEmail {
+    float: right;
+}
+
+#minHeight {
+    min-height: 350px;
+}
+
+/* Custom Icons */
+td.icon {
+    text-align: center;
+}
+td.icon i {
+    font-size: 25px;
+    text-shadow: 1px 1px #aaa;
+}
+td.icon .RED {
+    color: red;
+}
+td.icon .YELLOW {
+    color: orange;
+}
+td.icon .GREEN {
+    color: #006400;
+}
+/* Row Coloring */
+#highlight tr td {
+    background-color: #c1ffc3 !important;
+}
+#highlight tr.Status-YELLOW td {
+    background-color: #ffc57a !important;
+}
+#highlight tr.Status-RED td {
+    background-color: #d59392 !important;
+}
+#highlight .table td {
+    border-top: 1px solid #fff;
+}
+#highlight td.Status-RED, td.Status-YELLOW {
+    font-weight: bold;
+}
+.icon-inline i {
+    font-size: 18px;
+    margin-left: 5px;
+}
+.icon-inline i.icon-alert-circle {
+    color: #ef392c;
+}
+.icon-inline i.icon-alert {
+    color: #ff9c1a;
+}
+.icon-inline i.icon-check {
+    color: #5fff5e;
+}
